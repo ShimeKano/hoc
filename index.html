@@ -16,17 +16,60 @@
     }
     .dashboard {
       width: 90%;
-      max-width: 600px;
+      max-width: 680px;
       background: #fff;
       padding: 30px;
       border-radius: 20px;
       box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     }
+    .top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
     h2 {
-      text-align: center;
-      margin-bottom: 30px;
+      margin: 0;
       color: #333;
     }
+    .toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      user-select: none;
+    }
+    .toggle input {
+      width: 44px;
+      height: 24px;
+      appearance: none;
+      background: #ccc;
+      border-radius: 999px;
+      position: relative;
+      outline: none;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .toggle input::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 18px;
+      height: 18px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .toggle input:checked {
+      background: #0072ff;
+    }
+    .toggle input:checked::after {
+      transform: translateX(20px);
+    }
+
     .label {
       font-size: 18px;
       margin-bottom: 8px;
@@ -57,29 +100,115 @@
       background: linear-gradient(90deg, #00c6ff, #0072ff);
     }
     .avg {
-      text-align: center;
-      font-size: 18px;
-      margin-top: 20px;
+      text-align: left;
+      font-size: 16px;
+      margin-top: 6px;
       color: #444;
-      font-weight: bold;
+      font-weight: 600;
+    }
+    .avg-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 10px;
     }
     .alert {
       text-align: center;
       font-size: 18px;
-      margin-top: 20px;
+      margin-top: 12px;
       font-weight: bold;
       color: #fff;
       padding: 10px;
       border-radius: 10px;
-      display: none; /* ẩn mặc định */
+      display: none;
       background: linear-gradient(90deg, #ff0000, #cc0000);
       box-shadow: 0 0 15px rgba(255,0,0,0.6);
+    }
+
+    /* LCD section */
+    .lcd-card {
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+    }
+    .lcd-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .lcd-help {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    .lcd-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .lcd-textarea {
+      width: 100%;
+      resize: vertical;
+      min-height: 120px; /* ~ 4 dòng */
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 10px;
+      outline: none;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.03);
+    }
+    .lcd-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .btn {
+      border: none;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: #0072ff;
+      color: #fff;
+    }
+    .btn-outline {
+      background: #fff;
+      color: #0072ff;
+      border: 1px solid #0072ff;
+    }
+    .lcd-counter {
+      margin-left: auto;
+      font-size: 12px;
+      color: #555;
+    }
+    .lcd-preview {
+      margin-top: 10px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      background: #fafafa;
+      border: 1px dashed #ddd;
+      border-radius: 8px;
+      padding: 8px 10px;
+      white-space: pre;
+      color: #333;
     }
   </style>
 </head>
 <body>
   <div class="dashboard">
-    <h2>🌡️ DHT22 Monitor 💧</h2>
+    <div class="top-row">
+      <h2>🌡️ DHT22 Monitor 💧</h2>
+      <label class="toggle" title="Bật/tắt các cảnh báo">
+        <span>Cảnh báo</span>
+        <input id="toggleAlerts" type="checkbox" checked>
+      </label>
+    </div>
 
     <div class="label">Nhiệt độ</div>
     <div class="bar">
@@ -92,33 +221,82 @@
     </div>
 
     <!-- Hiển thị trung bình -->
-    <div id="avgTemp" class="avg">Trung bình nhiệt độ 3 lần đo gần nhất là: -- °C</div>
+    <div class="avg-wrap">
+      <div id="avgTemp" class="avg">Trung bình nhiệt độ 3 lần đo gần nhất: -- °C</div>
+      <div id="avgHum" class="avg">Trung bình độ ẩm 3 lần đo gần nhất: -- %</div>
+    </div>
 
-    <!-- Cảnh báo độ ẩm -->
-    <div id="humAlert" class="alert">⚠️ Cảnh báo: Độ ẩm quá cao! ⚠️</div>
+    <!-- Cảnh báo -->
+    <div id="tempAlert" class="alert">⚠️ Cảnh báo: Nhiệt độ quá cao! (> 50 °C) ⚠️</div>
+    <div id="humAlert" class="alert">⚠️ Cảnh báo: Độ ẩm quá cao! (≥ 85%) ⚠️</div>
+
+    <!-- LCD 20x4 input/publish -->
+    <div class="lcd-card">
+      <div class="lcd-title">🖥️ LCD 20x4</div>
+      <div class="lcd-help">
+        Nhập tối đa 4 dòng. Trên LCD, nếu dòng > 20 ký tự sẽ tự cuộn từ phải sang trái và quay lại đầu.
+      </div>
+      <div class="lcd-grid">
+        <textarea id="lcdText" class="lcd-textarea" rows="4" cols="20" placeholder="Nhập nội dung (tối đa 4 dòng)"></textarea>
+      </div>
+      <div class="lcd-actions">
+        <button id="btnPreview" class="btn btn-outline">Xem trước 20x4</button>
+        <button id="btnSend" class="btn btn-primary">Gửi lên LCD</button>
+        <div id="charCount" class="lcd-counter">0 ký tự</div>
+      </div>
+      <div id="lcdPreview" class="lcd-preview" style="display:none;"></div>
+    </div>
   </div>
 
   <script>
     const client = new Paho.MQTT.Client("broker.emqx.io", 8083, "web-" + Math.random());
-    
+    const LCD_TOPIC = "tuanprohl/lcd_text"; // đổi nếu cần đồng bộ với ESP32
+
+    // Trạng thái hiện tại
+    let alertsEnabled = true;
+    let lastTemp = null;
+    let lastHum = null;
+
+    function applyAlerts() {
+      const tempA = document.getElementById("tempAlert");
+      const humA  = document.getElementById("humAlert");
+
+      if (!alertsEnabled) {
+        tempA.style.display = "none";
+        humA.style.display = "none";
+        return;
+      }
+      if (lastTemp !== null && lastTemp > 50) {
+        tempA.style.display = "block";
+      } else {
+        tempA.style.display = "none";
+      }
+      if (lastHum !== null && lastHum >= 85) {
+        humA.style.display = "block";
+      } else {
+        humA.style.display = "none";
+      }
+    }
+
     client.onMessageArrived = function (msg) {
       if (msg.destinationName === "tuanprohl/temp") {
+        const t = parseFloat(msg.payloadString);
+        lastTemp = isNaN(t) ? null : t;
         document.getElementById("tempBar").style.width = msg.payloadString + "%";
         document.getElementById("tempBar").innerText = msg.payloadString + " °C";
+        applyAlerts();
       } else if (msg.destinationName === "tuanprohl/hum") {
+        const h = parseFloat(msg.payloadString);
+        lastHum = isNaN(h) ? null : h;
         document.getElementById("humBar").style.width = msg.payloadString + "%";
         document.getElementById("humBar").innerText = msg.payloadString + " %";
-
-        // kiểm tra cảnh báo độ ẩm
-        const humVal = parseFloat(msg.payloadString);
-        if (humVal >= 85) {
-          document.getElementById("humAlert").style.display = "block";
-        } else {
-          document.getElementById("humAlert").style.display = "none";
-        }
+        applyAlerts();
       } else if (msg.destinationName === "tuanprohl/temp_avg") {
-        document.getElementById("avgTemp").innerText = 
-          "Trung bình nhiệt độ 3 lần đo gần nhất là: " + msg.payloadString + " °C";
+        document.getElementById("avgTemp").innerText =
+          "Trung bình nhiệt độ 3 lần đo gần nhất: " + msg.payloadString + " °C";
+      } else if (msg.destinationName === "tuanprohl/hum_avg") {
+        document.getElementById("avgHum").innerText =
+          "Trung bình độ ẩm 3 lần đo gần nhất: " + msg.payloadString + " %";
       }
     };
 
@@ -128,11 +306,78 @@
         client.subscribe("tuanprohl/temp");
         client.subscribe("tuanprohl/hum");
         client.subscribe("tuanprohl/temp_avg");
+        client.subscribe("tuanprohl/hum_avg");
       },
       onFailure: (err) => {
         console.error("❌ MQTT connection failed", err);
       }
     });
+
+    // Toggle cảnh báo
+    document.getElementById("toggleAlerts").addEventListener("change", (e) => {
+      alertsEnabled = e.target.checked;
+      applyAlerts();
+    });
+
+    // ------- LCD helpers -------
+    const $ta = document.getElementById("lcdText");
+    const $count = document.getElementById("charCount");
+    const $preview = document.getElementById("lcdPreview");
+    const $btnPreview = document.getElementById("btnPreview");
+    const $btnSend = document.getElementById("btnSend");
+
+    function removeDiacritics(str) {
+      return str
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/đ/g, "d")
+        .replace(/Đ/g, "D")
+        .replace(/[^\x20-\x7E\n]/g, "");
+    }
+
+    function getLines(raw) {
+      const sanitized = removeDiacritics(raw);
+      const lines = sanitized.split(/\r?\n/).slice(0, 4);
+      while (lines.length < 4) lines.push("");
+      return lines; // KHÔNG cắt/pad 20 ký tự, để firmware cuộn
+    }
+
+    function getWindow20(line) {
+      // Lấy khung nhìn 20 ký tự đầu (như LCD khi mới hiện)
+      if (line.length <= 20) return line.padEnd(20, " ");
+      return line.substring(0, 20);
+    }
+
+    function updateCounter() {
+      $count.textContent = `${$ta.value.length} ký tự`;
+    }
+
+    function showPreview() {
+      const lines = getLines($ta.value);
+      const firstWindow = lines.map(getWindow20).join("\n");
+      $preview.style.display = "block";
+      $preview.textContent = firstWindow + "\n\n(Lưu ý: Dòng > 20 ký tự sẽ tự cuộn trên LCD)";
+    }
+
+    function publishLcd() {
+      if (!client.isConnected()) {
+        alert("MQTT chưa kết nối, vui lòng chờ...");
+        return;
+      }
+      const lines = getLines($ta.value);
+      const payload = lines.join("\n"); // 4 dòng, có thể dài > 20
+      const message = new Paho.MQTT.Message(payload);
+      message.destinationName = LCD_TOPIC;
+      message.qos = 0;
+      client.send(message);
+      console.log("📤 Sent to", LCD_TOPIC, JSON.stringify(lines));
+      alert("Đã gửi nội dung LCD!");
+    }
+
+    $ta.addEventListener("input", updateCounter);
+    $btnPreview.addEventListener("click", showPreview);
+    $btnSend.addEventListener("click", publishLcd);
+    updateCounter();
   </script>
 </body>
 </html>
