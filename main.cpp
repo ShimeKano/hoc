@@ -16,6 +16,7 @@ PubSubClient client(espClient);
 
 float prevTemp = NAN;
 float prevHum = NAN;
+float lastTemps[3] = {NAN, NAN, NAN};
 
 void setup_wifi() {
   delay(10);
@@ -80,6 +81,23 @@ void loop() {
     client.publish("tuanprohl/temp", tempStr.c_str());
     Serial.print("📤 Nhiệt độ gửi: ");
     Serial.println(tempStr);
+    
+     // Cập nhật mảng 3 lần gần nhất
+    lastTemps[2] = lastTemps[1];
+    lastTemps[1] = lastTemps[0];
+    lastTemps[0] = t;
+
+    // Tính trung bình nếu đã có đủ 3 lần
+    if (!isnan(lastTemps[0]) && !isnan(lastTemps[1]) && !isnan(lastTemps[2])) {
+      float avgTemp = (lastTemps[0] + lastTemps[1] + lastTemps[2]) / 3.0;
+      Serial.print("🌡️ Trung bình 3 lần gần nhất: ");
+      Serial.println(avgTemp, 1);
+
+      // Nếu muốn gửi MQTT
+      String avgStr = String(avgTemp, 1);
+      client.publish("tuanprohl/temp_avg", avgStr.c_str());
+    }
+
     prevTemp = t;
   }
 
