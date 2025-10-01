@@ -56,6 +56,25 @@
     .hum {
       background: linear-gradient(90deg, #00c6ff, #0072ff);
     }
+    .avg {
+      text-align: center;
+      font-size: 18px;
+      margin-top: 20px;
+      color: #444;
+      font-weight: bold;
+    }
+    .alert {
+      text-align: center;
+      font-size: 18px;
+      margin-top: 20px;
+      font-weight: bold;
+      color: #fff;
+      padding: 10px;
+      border-radius: 10px;
+      display: none; /* ẩn mặc định */
+      background: linear-gradient(90deg, #ff0000, #cc0000);
+      box-shadow: 0 0 15px rgba(255,0,0,0.6);
+    }
   </style>
 </head>
 <body>
@@ -71,6 +90,12 @@
     <div class="bar">
       <div id="humBar" class="fill hum" style="width:0%">0 %</div>
     </div>
+
+    <!-- Hiển thị trung bình -->
+    <div id="avgTemp" class="avg">Trung bình nhiệt độ 3 lần đo gần nhất là: -- °C</div>
+
+    <!-- Cảnh báo độ ẩm -->
+    <div id="humAlert" class="alert">⚠️ Cảnh báo: Độ ẩm quá cao! ⚠️</div>
   </div>
 
   <script>
@@ -83,6 +108,17 @@
       } else if (msg.destinationName === "tuanprohl/hum") {
         document.getElementById("humBar").style.width = msg.payloadString + "%";
         document.getElementById("humBar").innerText = msg.payloadString + " %";
+
+        // kiểm tra cảnh báo độ ẩm
+        const humVal = parseFloat(msg.payloadString);
+        if (humVal >= 85) {
+          document.getElementById("humAlert").style.display = "block";
+        } else {
+          document.getElementById("humAlert").style.display = "none";
+        }
+      } else if (msg.destinationName === "tuanprohl/temp_avg") {
+        document.getElementById("avgTemp").innerText = 
+          "Trung bình nhiệt độ 3 lần đo gần nhất là: " + msg.payloadString + " °C";
       }
     };
 
@@ -91,6 +127,7 @@
         console.log("✅ Connected to MQTT broker");
         client.subscribe("tuanprohl/temp");
         client.subscribe("tuanprohl/hum");
+        client.subscribe("tuanprohl/temp_avg");
       },
       onFailure: (err) => {
         console.error("❌ MQTT connection failed", err);
