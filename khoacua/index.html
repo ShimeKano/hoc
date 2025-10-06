@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <title>Keypad • ESP32 • MQTT (Simple)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" defer></script>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; margin: 16px; }
+    .wrap { max-width: 680px; margin: 0 auto; }
+    h1 { font-size: 20px; margin: 0 0 12px; }
+    .row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; margin-bottom: 10px; }
+    label { font-size: 13px; color: #555; display: block; margin-bottom: 6px; }
+    input[type="text"] { padding: 10px; border: 1px solid #ccc; border-radius: 8px; width: 100%; font-family: ui-monospace, Consolas, Menlo, monospace; }
+    button { padding: 10px 12px; border: 1px solid #ccc; border-radius: 8px; background: #2563eb; color: #fff; cursor: pointer; }
+    .card { border: 1px solid #e5e7eb; border-radius: 10px; padding: 12px; margin-bottom: 12px; }
+    .muted { color: #666; font-size: 13px; }
+    .box { border: 1px solid #e5e7eb; border-radius: 8px; padding: 8px; background: #fafafa; min-height: 20px; font-family: ui-monospace, Consolas, Menlo, monospace; }
+    .status { margin-bottom: 12px; }
+    .ok { color: #15803d; } .err { color: #b91c1c; }
+    .banner { margin-top: 8px; padding: 10px; border-radius: 8px; display: none; font-weight: 600; }
+    .banner.ok { display: block; background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+    .banner.err { display: block; background: #fef2f2; color: #7f1d1d; border: 1px solid #fecaca; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Keypad • ESP32 • MQTT (Simple)</h1>
+
+    <div class="status muted" id="mqttStatus">MQTT: Disconnected</div>
+
+    <div class="card">
+      <label for="pwd">Mật khẩu hiện tại</label>
+      <div class="row">
+        <input id="pwd" type="text" placeholder="Nhập mật khẩu..." />
+        <button id="save">Lưu</button>
+      </div>
+      <div class="muted">Mật khẩu lưu cục bộ (localStorage). Nếu MQTT đã kết nối, sẽ publish retained lên tuanprohl/keypad/password.</div>
+      <div id="saveMsg" class="muted"></div>
+    </div>
+
+    <div class="card">
+      <div style="margin-bottom:8px">
+        <div class="muted">Buffer đang gõ (typed)</div>
+        <div id="typed" class="box">--</div>
+      </div>
+      <div style="margin-bottom:8px">
+        <div class="muted">Mã vừa gửi (entered)</div>
+        <div id="entered" class="box">--</div>
+      </div>
+      <div id="result" class="banner">—</div>
+    </div>
+
+    <div class="card">
+      <div class="muted">Topics</div>
+      <div class="box">tuanprohl/keypad/typed, tuanprohl/keypad/entered, tuanprohl/keypad/result, tuanprohl/keypad/password</div>
+    </div>
+  </div>
+
+  <script>
+    // Tự chọn WS/WSS theo cách bạn mở trang:
+    // - Nếu mở qua HTTPS (GitHub Pages): dùng wss://broker.emqx.io:8084
+    // - Nếu mở qua HTTP/Live Server/file://: dùng ws://broker.emqx.io:8083
+    const isHTTPS = location.protocol === "https:";
+    const BROKER_HOST = "broker.emqx.io";
+    const BROKER_PORT = isHTTPS ? 8084 : 8083;
+    const USE_SSL = isHTTPS;
+
+    const TOPIC_TYPED    = "tuanprohl/keypad/typed";
+    const TOPIC_ENTERED  = "tuanprohl/keypad/entered";
+    const TOPIC_RESULT   = "tuanprohl/keypad/result";
+    const TOPIC_PASSWORD = "tuanprohl/keypad/password";
+
+    const $status = document.getElementById("mqttStatus");
+    const $pwd = document.getElementById("pwd");
+    const $save = document.getElementById("save");
+    const $saveMsg = document.getElementById("saveMsg");
+    const $typed = document.getElementById("typed");
+    const $entered = document.getElementById("entered");
+    const $result = document.getElementById("result");
+
+    // Khôi phục mật khẩu
+    const KEY = "keypad_password";
+    const saved = localStorage.getItem(KEY) || "";
+    if (saved) $pwd.value = saved;
+
+    $save.addEventListener("click", () => {
+      localStorage.setItem(KEY, $pwd.value);
+      if (client && client.isConnected()) {
+        const m = new Paho.MQTT.Message($pwd.value);
+        m.destinationName = TOPIC_PASSWORD;
+        m.qos = 0;
+        m.retained = true;
+        client.send(m);
+        $saveMsg.textContent = "Đã lưu mật khẩu và publish retained.";
+        $saveMsg.className = "muted ok";
+      } else {
+        $saveMsg.textContent = "Đã lưu mật khẩu cục bộ.";
+        $saveMsg.className = "muted";
+      }
+    });
+
+    function setStatus(text, ok) {
+      $status.textContent = text;
+      $status.className = "status " + (ok ? "ok" : "err");
+    }
+
+    function showResult(ok, code) {
+      $result.textContent = ok ? `Đúng mật khẩu: ${code}` : `Sai mật khẩu: ${code}`;
+      $result.className = "banner " + (ok ? "ok" : "err");
+    }
+
+    let client;
+    function connectMqtt() {
+      // Paho signature: new Client(host, port, path, clientId)
+      // Nêu rõ path "/mqtt" để tương thích chắc chắn với EMQX
+      client = new Paho.MQTT.Client(BROKER_HOST, Number(BROKER_PORT), "/mqtt", "web-keypad-" + Math.random().toString(16).slice(2));
+
+      client.onConnectionLost = () => {
+        setStatus("MQTT: Disconnected", false);
+        setTimeout(connectMqtt, 1200);
+      };
+
+      client.onMessageArrived = (msg) => {
+        if (msg.destinationName === TOPIC_TYPED) {
+          $typed.textContent = msg.payloadString || "";
+        } else if (msg.destinationName === TOPIC_ENTERED) {
+          const code = (msg.payloadString || "").trim();
+          $entered.textContent = code || "";
+          const pass = $pwd.value || "";
+          const ok = (code === pass);
+
+          showResult(ok, code);
+
+          const r = new Paho.MQTT.Message(ok ? "OK" : "FAIL");
+          r.destinationName = TOPIC_RESULT;
+          r.qos = 0;
+          client.send(r);
+        }
+      };
+
+      client.connect({
+        timeout: 5,
+        useSSL: USE_SSL,
+        onSuccess: () => {
+          setStatus("MQTT: Connected (" + (USE_SSL ? "wss:8084" : "ws:8083") + ")", true);
+          client.subscribe(TOPIC_TYPED);
+          client.subscribe(TOPIC_ENTERED);
+          client.subscribe(TOPIC_PASSWORD); // optional
+        },
+        onFailure: (e) => {
+          setStatus("MQTT: Connect failed, retrying...", false);
+          setTimeout(connectMqtt, 1500);
+        }
+      });
+    }
+
+    window.addEventListener("load", connectMqtt);
+    $pwd.addEventListener("keydown", (e) => { if (e.key === "Enter") $save.click(); });
+  </script>
+</body>
+</html>
