@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "author": "Prakoso Widyantoro",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-esp32-devkit-v1", "id": "esp", "top": -177.7, "left": -120.2, "attrs": {} },
+    {
+      "type": "wokwi-membrane-keypad",
+      "id": "keypad1",
+      "top": -539.32,
+      "left": 65.69,
+      "attrs": {}
+    }
+  ],
+  "connections": [
+    [ "esp:TX0", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX0", "$serialMonitor:TX", "", [] ],
+    [ "keypad1:C4", "esp:D15", "green", [ "v159.04", "h-245.04" ] ],
+    [ "keypad1:C3", "esp:D2", "purple", [ "v0" ] ],
+    [ "keypad1:C2", "esp:D4", "white", [ "v0" ] ],
+    [ "keypad1:C1", "esp:D5", "violet", [ "v0" ] ],
+    [ "keypad1:R4", "esp:D18", "blue", [ "v0" ] ],
+    [ "keypad1:R3", "esp:D19", "gold", [ "v0" ] ],
+    [ "keypad1:R2", "esp:D23", "orange", [ "v80.65", "h-133.05", "v-32.5" ] ],
+    [
+      "keypad1:R1",
+      "esp:D13",
+      "#8f4814",
+      [ "v67.27", "h-107.76", "v-53.53", "h-205.53", "v146.26" ]
+    ]
+  ],
+  "dependencies": {}
+}
