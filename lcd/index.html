@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>ESP32 Traffic Light (MQTT)</title>
+  <!-- Paho MQTT over WebSocket -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
+  <style>
+    body{font-family:Segoe UI,Roboto,Arial;margin:24px auto;max-width:720px;padding:0 12px;color:#222}
+    h1{font-size:22px;margin-bottom:8px}
+    .muted{color:#666}
+    .grid{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:center}
+    input[type=number]{padding:10px 12px;font-size:16px;border:1px solid #ccc;border-radius:8px;width:100%}
+    button{padding:10px 14px;font-size:16px;border:0;border-radius:8px;background:#2563eb;color:#fff;cursor:pointer}
+    .card{border:1px solid #e5e7eb;border-radius:10px;padding:16px;background:#f8fafc;margin:12px 0}
+    .state{font-weight:600}
+    .ok{color:#15803d}.err{color:#b91c1c}
+  </style>
+</head>
+<body>
+  <h1>Điều khiển đèn giao thông (MQTT)</h1>
+  <p class="muted">Thứ tự: Xanh → Vàng → Đỏ → Xanh ... | Broker: broker.emqx.io (WS: 8083) | Topics: tuanprohl/traffic/*</p>
+
+  <div class="card">
+    <div class="row">
+      <label>Trạng thái hiện tại</label>
+      <div id="state" class="state">--</div>
+    </div>
+    <div class="row">
+      <label>Durations (giây)</label>
+      <div id="durs">--</div>
+    </div>
+  </div>
+
+  <form id="frm" class="card">
+    <div class="row">
+      <label for="green">Đèn xanh (giây)</label>
+      <input id="green" name="green" type="number" min="1" max="600" required value="5">
+    </div>
+    <div class="row">
+      <label for="yellow">Đèn vàng (giây)</label>
+      <input id="yellow" name="yellow" type="number" min="1" max="600" required value="2">
+    </div>
+    <div class="row">
+      <label for="red">Đèn đỏ (giây)</label>
+      <input id="red" name="red" type="number" min="1" max="600" required value="5">
+    </div>
+    <div class="row">
+      <div></div>
+      <button type="submit">Gửi dữ liệu</button>
+    </div>
+    <div id="ack" class="muted"></div>
+  </form>
+
+  <script>
+    // Cấu hình MQTT WebSocket
+    const BROKER_HOST = "broker.emqx.io";
+    const BROKER_PORT = 8083; // WebSocket
+    const TOPIC_STATE = "tuanprohl/traffic/state";
+    const TOPIC_DURS  = "tuanprohl/traffic/durations";
+    const TOPIC_SET   = "tuanprohl/traffic/set";
+    const TOPIC_ACK   = "tuanprohl/traffic/ack";
+
+    const client = new Paho.MQTT.Client(BROKER_HOST, BROKER_PORT, "web-traffic-" + Math.random());
+
+    client.onConnectionLost = (res) => {
+      console.warn("MQTT lost:", res.errorMessage);
+      setAck("Mất kết nối MQTT, đang thử lại...", "err");
+      setTimeout(connectMqtt, 1000);
+    };
+
+    client.onMessageArrived = (msg) => {
+      if (msg.destinationName === TOPIC_STATE) {
+        document.getElementById("state").textContent = msg.payloadString;
+      } else if (msg.destinationName === TOPIC_DURS) {
+        try {
+          const j = JSON.parse(msg.payloadString);
+          document.getElementById("durs").textContent = `green=${j.green}s, yellow=${j.yellow}s, red=${j.red}s`;
+          if (typeof j.green === "number") document.getElementById("green").value = j.green;
+          if (typeof j.yellow === "number") document.getElementById("yellow").value = j.yellow;
+          if (typeof j.red === "number") document.getElementById("red").value = j.red;
+        } catch (e) {
+          console.error("Bad durations JSON:", e);
+        }
+      } else if (msg.destinationName === TOPIC_ACK) {
+        const p = (msg.payloadString || "").trim();
+        if (p === "OK") {
+          setAck("Thao tác dữ liệu thành công, ESP32 đã nhận", "ok");
+        } else {
+          setAck("ESP32 phản hồi: " + p, "err");
+        }
+      }
+    };
+
+    function connectMqtt() {
+      client.connect({
+        timeout: 5,
+        onSuccess: () => {
+          console.log("MQTT connected");
+          client.subscribe(TOPIC_STATE);
+          client.subscribe(TOPIC_DURS);
+          client.subscribe(TOPIC_ACK);
+          setAck("Đã kết nối MQTT", "ok");
+        },
+        onFailure: (e) => {
+          console.error("MQTT failed:", e.errorMessage);
+          setAck("Kết nối MQTT thất bại, sẽ thử lại...", "err");
+          setTimeout(connectMqtt, 1500);
+        },
+        useSSL: false, // emqx WS :8083 không SSL
+      });
+    }
+
+    function setAck(text, kind) {
+      const el = document.getElementById("ack");
+      el.textContent = text;
+      el.className = "muted " + (kind === "ok" ? "ok" : "err");
+    }
+
+    document.getElementById("frm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!client.isConnected()) {
+        setAck("MQTT chưa kết nối", "err");
+        return;
+      }
+      const g = parseInt(document.getElementById("green").value, 10);
+      const y = parseInt(document.getElementById("yellow").value, 10);
+      const r = parseInt(document.getElementById("red").value, 10);
+      const payload = JSON.stringify({ green: g, yellow: y, red: r });
+
+      const m = new Paho.MQTT.Message(payload);
+      m.destinationName = TOPIC_SET;
+      m.qos = 0;
+      client.send(m);
+
+      // Thông báo đang gửi, sẽ được thay thế bằng ACK từ ESP32
+      setAck("Đang gửi dữ liệu...", "ok");
+    });
+
+    connectMqtt();
+  </script>
+</body>
+</html>
