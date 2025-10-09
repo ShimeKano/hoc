@@ -1,0 +1,967 @@
+ 
+TÍNH ĐIỂM - THI
+10%: Điểm danh LT + TH (8Đ) + Trắc nghiệm (2Đ)
+40%: Thực hành (Điểm bên phần thực hành)
+50%: Đồ án môn học - PPTX: Khoảng 10 – 15 slide
+- DOCX: Khoảng 20 – 25 trang
+(Trình bày tương tự đồ án môn học)
+TÍNH ĐIỂM - THI
+TÀI LIỆU: ELEARNING.VLUTE.EDU.VN
+KEY: <MÃ LỚP HỌC PHẦN> 
+TÍNH ĐIỂM - THI
+	1×	𝐷. 𝐷𝑢𝐿𝑜𝑝 + 2	×	𝐷. 𝑇𝐻1 + 𝐷. 𝑇𝐻2	+ 3	×	𝐷. 𝐶𝑈𝑂𝐼𝐾𝑌
+𝑫 =
+8
+-	D.DuLop: Điểm điểm danh
+-	D.TH1: Điểm lớp thực hành 1
+-	D.TH2: Điểm lớp thực hành 2
+-	D.CUOIKY: Điểm báo cáo cuối kỳ
+NỘI DUNG MÔN HỌC
+CHƯƠNG 1: TỔNG QUAN VỀ IOT VÀ MẠNG TRONG IOT
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+CHƯƠNG 3: AN TOÀN BẢO MẬT TRONG IOT
+CHƯƠNG 4: ĐIỆN TOÁN BIÊN VÀ ĐIỆN TOÁN ĐÁM MÂY CHO IOT 
+ 
+ 
+1. Định nghĩa IoT
+a. Định nghĩa
+IoT (Internet of Things) là một mạng lưới các thiết được trang bị cảm biến/module chức năng có khả năng kết nối Internet, cho phép chúng trao đổi và chia sẻ dữ liệu với nhau hoặc với các hệ thống khác thông qua các giao thức truyền thông.
+Việc kết nối có thể thực hiện qua Wifi, ZigBee, Bluetooth, Mạng viễn thông, …
+“Câu hỏi: Vậy mục tiêu của các hệ thống IoT là gì?”
+CHƯƠNG 1: TỔNG QUAN VỀ IOT VÀ MẠNG TRONG IOT
+1. Định nghĩa IoT
+a. Định nghĩa
+“Câu hỏi: Vậy mục tiêu của các hệ thống IoT là gì?”
+-	Tạo ra một môi trường thông minh, nơi các thiết bị có thể tự động thu thập, trao đổi dữ liệu và đưa ra quyết định mà không cần sự can thiệp của con người.
+-	Tối ưu hóa quy trình, tiết kiệm chi phí, nâng cao hiệu quả và cải thiện chất lượng cuộc sống
+1. Định nghĩa IoT
+b. Lịch sử phát triển của IoT
+ 
+ 
+1. Định nghĩa IoT
+b. Lịch sử phát triển của IoT
+ 
+1.	Định nghĩa IoT
+c. Vai trò và tầm quan trọng của IoT
+-	Tối ưu hóa quy trình và nâng cao hiệu quả
+Ví dụ: IoT giúp theo dõi hàng hóa, tối ưu hóa tuyến đường vận chuyển và quản lý tồn kho hiệu quả.
+-	Tiết kiệm chi phí và năng lượng
+-	Cải thiện chất lượng cuộc sống và dịch vụ
+-	Thúc đẩy đổi mới và tạo ra các mô hình kinh doanh mới
+-	Giải quyết các vấn đề mới
+2. Kiến trúc và thành phần cơ bản của hệ thống IoT
+a. Kiến trúc tổng quát của IoT
+Kiến trúc IoT thường được chia thành ba tầng chính:
+1.	Tầng ứng dụng (Applycation layer)
+2.	Tầng mạng (Transport layer)
+3.	Tầng vật lý (Perception layer)
+2. Kiến trúc và thành phần cơ bản của hệ thống IoT
+a. Kiến trúc tổng quát của IoT
+(3) Tầng vật lý (Perception layer)
+-	Các thiết bị cảm biến, thiết bị truyền động và thiết bị đầu cuối có nhiệm vụ thu thập dữ liệu từ môi trường và thực hiện các hành động điều khiển.
+-	Tương tác với thế giới vật lý và chuyển đổi thông tin thành dữ liệu số.
+ 
+2. Kiến trúc và thành phần cơ bản của hệ thống IoT
+a. Kiến trúc tổng quát của IoT
+(2) Tầng mạng (Transport layer)
+-	Truyền tải dữ liệu từ tầng vật lý đến tầng ứng dụng và ngược lại. - Sử dụng các giao thức: 
++ Mạng cục bộ (LAN), 
++ Mạng diện rộng (WAN), + Mạng di động, mạng Internet.
+-	Các công nghệ như: + Wi-Fi, 
++ Bluetooth; Zigbee, 
++ LoRaWAN, 
++ 3G/4G/5G
+2. Kiến trúc và thành phần cơ bản của hệ thống IoT
+a. Kiến trúc tổng quát của IoT
+(2) Tầng mạng (Transport layer)
+“Câu hỏi: Vậy việc truyền tải thông tin có cần Internet không?”
+ 
+2. Kiến trúc và thành phần cơ bản của hệ thống IoT
+a. Kiến trúc tổng quát của IoT
+(1) Tầng ứng dụng (Applycation layer)
+-	Nơi diễn ra phân tích, xử lý dữ liệu và ra quyết định dựa trên thông tin thu thập được từ tầng vật lý.
+-	Bao gồm các nền tảng điện toán đám mây, phần mềm, ứng dụng và giao diện người dùng.
+ 
+2. Kiến trúc và thành phần cơ bản của hệ thống IoT
+a. Kiến trúc tổng quát của IoT
+-	Một số kiến trúc IoT còn bao gồm các tầng bổ sung như tầng xử lý dữ liệu (data processing layer) và tầng bảo mật (security layer) để giải quyết các vấn đề cụ thể.
+-	Kiến trúc IoT có thể thay đổi tùy theo ứng dụng nhưng ba tầng chính (vật lý, mạng và ứng dụng) là nền tảng cơ bản nhất.
+Source: Burhan, M.; Rehman, R.A.; Khan, B.; Kim, B.-S. IoT Elements, Layered Architectures and Security Issues: A Comprehensive Survey. Sensors 2018, 18, 2796. https://doi.org/10.3390/s18092796
+ 
+CHƯƠNG 1: TỔNG QUAN VỀ IOT VÀ MẠNG TRONG IOT
+3. Mạng truyền thông trong IoT
+“Câu hỏi: Mạng truyền thông trong IoT là gì? Giữ vai trò gì?” 
+3. Mạng truyền thông trong IoT
+a. Vai trò
+-	Kết nối: thiết bị IoT, cảm biến và thiết bị đầu cuối kết nối,….
+-	Truyền tải dữ liệu: dữ liệu được truyền từ thiết bị nguồn đến thiết bị đích hoặc đến gateway và máy chủ xử lý dữ liệu.
+3. Mạng truyền thông trong IoT
+a. Vai trò
+-	Hỗ trợ các giao thức truyền thông: MQTT, CoAP, HTTP, WebSocket, để phù hợp với yêu cầu và tài nguyên của từng ứng dụng IoT.
+-	Mở rộng phạm vi và quy mô: mở rộng phạm vi triển khai và quy mô của hệ thống IoT.
+-	Tích hợp với các hệ thống khác: đóng vai trò như một cầu nối, cho phép tích hợp hệ thống IoT với các hệ thống CNTT khác như điện toán đám mây, cơ sở dữ liệu, phần mềm doanh nghiệp, v.v.
+3. Mạng truyền thông trong IoT
+b. Phân loại mạng truyền thông tỏng IoT
+Mạng truyền thông IoT có thể được phân loại dựa trên nhiều tiêu chí khác nhau như phạm vi phủ sóng, băng thông, mức tiêu thụ năng lượng và ứng dụng.
+Thông thường sẽ được chia làm 3 loại:
+-	Mạng cảm biến không dây (Wireless Sensor Networks - WSN):
+-	Mạng diện rộng công suất thấp (Low-Power Wide-Area Networks - LPWAN) - Mạng di động (Cellular Networks)
+3. Mạng truyền thông trong IoT
+b. Phân loại mạng truyền thông tỏng IoT
+(1) Mạng cảm biến không dây (Wireless Sensor Networks - WSN):
+-	Bao gồm các nút cảm biến không dây kết nối với nhau để thu thập và truyền tải dữ liệu.
+-	Giao thức truyền thông ngắn tầm như Zigbee, Bluetooth, Wi-Fi, 6LoWPAN.
+ 
+3. Mạng truyền thông trong IoT
+b. Phân loại mạng truyền thông tỏng IoT
+(1) Mạng cảm biến không dây (Wireless Sensor Networks - WSN):
+-	Đặc điểm: mật độ nút cao, mức tiêu thụ năng lượng thấp, tốc độ truyền dữ liệu thấp đến trung bình.
+-	Ứng dụng: giám sát môi trường, nông nghiệp thông minh, nhà thông minh.
+ 
+3. Mạng truyền thông trong IoT
+b. Phân loại mạng truyền thông trong IoT
+(2) Mạng diện rộng công suất thấp (Low-Power Wide-Area Networks - LPWAN)
+-	Thiết kế để truyền tải dữ liệu trong phạm vi rộng với mức tiêu thụ năng lượng thấp.
+-	Sử dụng các công nghệ như LoRaWAN, SigFox, NB-IoT, LTE-M,…
+ 
+ 
+CHƯƠNG 1: TỔNG QUAN VỀ IOT VÀ MẠNG TRONG IOT
+3. Mạng truyền thông trong IoT
+b. Phân loại mạng truyền thông trong IoT
+(2) Mạng diện rộng công suất thấp (Low-Power Wide-Area Networks - LPWAN)
+-	Đặc điểm: phạm vi phủ sóng rộng (vài km đến vài chục km), mức tiêu thụ năng lượng cực thấp, tốc độ truyền dữ liệu thấp.
+-	Ứng dụng: đo đếm từ xa, theo dõi tài sản, nông nghiệp chính xác,..
+3. Mạng truyền thông trong IoT
+b. Phân loại mạng truyền thông tỏng IoT
+(3) Mạng di động (Cellular Networks)
+-	Sử dụng các công nghệ mạng di động như 2G, 3G, 4G (LTE) và 5G để truyền tải dữ liệu IoT.
+-	Cung cấp kết nối di động và phạm vi phủ sóng rộng lớn.
+-	Đặc điểm: tốc độ truyền dữ liệu cao, độ trễ thấp (đặc biệt với 5G), mức tiêu thụ năng lượng cao hơn so với WSN và LPWAN.
+-	Ứng dụng: xe kết nối, giám sát và điều khiển từ xa, truyền phát video,…
+CHƯƠNG 1: TỔNG QUAN VỀ IOT VÀ MẠNG TRONG IOT
+3. Mạng truyền thông trong IoT
+b. Phân loại mạng truyền thông trong IoT
+ 
+3. Mạng truyền thông trong IoT
+c. Yêu cầu và thách thức
+Đáp ứng nhiều yêu cầu đặc thù và đối mặt với nhiều thách thức như: a. Tiêu thụ năng lượng: 
+- Tối ưu hóa mức tiêu thụ năng lượng, kéo dài tuổi thọ pin và giảm thiểu nhu cầu bảo trì. - Kỹ thuật như ngủ đông (sleep mode), điều chỉnh công suất phát và định tuyến năng lượng hiệu quả.
+“Câu hỏi: Với tác vụ xử lý thông thường làm thế nào để tiết kiệm năng lượng trong thiết bị IoT?
+CHƯƠNG 1: TỔNG QUAN VỀ IOT VÀ MẠNG TRONG IOT
+3. Mạng truyền thông trong IoT
+c. Yêu cầu và thách thức
+b. Độ trễ và băng thông
+-	Số lượng thiết bị IoT tăng, nhu cầu băng thông lớn để truyền tải dữ liệu.
+-	Ứng dung IoT điều khiển thời gian thực đòi hỏi độ trễ thấp.
+-	Cần cân bằng giữa băng thông, độ trễ và mức tiêu thụ năng lượng để đáp ứng yêu cầu của từng ứng dụng.
+3. Mạng truyền thông trong IoT
+c. Yêu cầu và thách thức
+c. Khả năng mở rộng và tính linh hoạt
+-	Mạng IoT cần hỗ trợ số lượng lớn thiết bị kết nối và mở rộng quy mô.
+-	Sử dụng các kiến trúc mạng phân tán, định tuyến thích ứng và giao thức truyền thông linh hoạt.
+ 
+3. Mạng truyền thông trong IoT
+c.	Yêu cầu và thách thức
+d.	An toàn bảo mật:
+-	Bảo vệ dữ liệu và quyền riêng tư của người dùng là yêu cầu quan trọng.
+-	Mạng truyền thông cần triển khai các cơ chế an toàn như mã hóa, xác thực, kiểm soát truy cập và phát hiện xâm nhập.
+3. Mạng truyền thông trong IoT
+c. Yêu cầu và thách thức
+Thách thức: 
+-	Nhiều thiết bị IoT có tài nguyên hạn chế, khó triển khai các biện pháp bảo mật mạnh; 
+-	Đa dạng của các giao thức và nền tảng IoT gây khó khăn trong việc đảm bảo an toàn thống nhất.
+Tính tương thích và tiêu chuẩn hóa:
+-	Sự đa dạng của các thiết bị, giao thức và nền tảng IoT dẫn đến thách thức về tính tương thích. - Cần thống nhất giữa các bên liên quan để xây dựng các tiêu chuẩn và giao thức chung, đảm bảo khả năng tương tác và tích hợp giữa các hệ thống IoT.
+3. Mạng truyền thông trong IoT
+c. Yêu cầu và thách thức
+Quản lý và giám sát mạng:
+-	Với quy mô lớn việc quản lý và giám sát trở nên phức tạp.
+-	Cần có công cụ và phương pháp để theo dõi hiệu suất mạng, phát hiện và khắc phục sự cố.
+-	Quản lý vòng đời của thiết bị IoT.
+4. Câu hỏi
+Câu 1: IoT là viết tắt của cụm từ nào? Giải thích ngắn gọn về IoT.
+Câu 2: Nêu và giải thích các thành phần chính trong kiến trúc tổng quát của hệ thống IoT.
+Câu 3: Mạng truyền thông đóng vai trò gì trong hệ thống IoT? Nêu ít nhất 3 vai trò quan trọng.
+Câu 4: Trình bày 3 loại mạng truyền thông IoT phổ biến và ứng dụng của chúng.
+Câu 5: Vì sao tiêu thụ năng lượng là một yêu cầu quan trọng trong thiết kế mạng IoT? Nêu một số kỹ thuật để tối ưu hóa mức tiêu thụ năng lượng.
+Câu 6: Giải thích thách thức về an toàn bảo mật trong mạng truyền thông IoT. Nêu một số biện pháp bảo mật cần triển khai.
+Câu 7: Cho 3 ví dụ về ứng dụng thực tế của IoT trong các lĩnh vực khác nhau.
+ 
+ 
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+“Câu hỏi: Giao thức truyền thông là gì? Nó có vai trò gì trong IoT? 
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.1. Tổng quan
+a. Vai trò của giao thức truyền thông trong hệ thống IoT:
+-	Cung cấp các quy tắc và chuẩn mực để truyền tải dữ liệu giữa các thiết bị IoT.
+-	Đảm bảo tính tương thích và khả năng tương tác giữa các thiết bị và hệ thống khác nhau.
+-	Hỗ trợ các yêu cầu về hiệu suất, độ tin cậy, bảo mật và khả năng mở rộng của hệ thống IoT. 
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.1. Tổng quan
+b. Yêu cầu và thách thức đối với giao thức truyền thông IoT:
+-	Tiêu thụ năng lượng thấp phù hợp với các thiết bị IoT có nguồn năng lượng hạn chế.
+-	Băng thông và độ trễ phù hợp với yêu cầu của ứng dụng IoT cụ thể.
+-	Khả năng hỗ trợ số lượng lớn thiết bị kết nối và mở rộng quy mô.
+-	Bảo mật và bảo vệ dữ liệu truyền tải trên mạng IoT.
+-	Tính tương thích và khả năng tích hợp với các hệ thống và giao thức khác.
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.1. Tổng quan
+c. Phân loại giao thức truyền thông trong IoT:
+-	Giao thức tầng vật lý và liên kết dữ liệu: Xác định cách thức truyền tải dữ liệu giữa các thiết bị IoT ở mức bit và frame (ví dụ: IEEE 802.15.4, Bluetooth, Wi-Fi).
+-	Giao thức tầng mạng: Quản lý định tuyến và truyền tải dữ liệu giữa các thiết bị IoT thông qua mạng (ví dụ: 6LoWPAN, RPL).
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.1. Tổng quan
+c. Phân loại giao thức truyền thông trong IoT:
+-	Giao thức tầng ứng dụng: Cung cấp các dịch vụ và giao diện cho phát triển ứng dụng IoT (ví dụ: MQTT, CoAP, XMPP).
+-	Giao thức bảo mật: Đảm bảo tính bảo mật, toàn vẹn và riêng tư của dữ liệu truyền tải trong IoT (ví dụ: TLS/DTLS).
+ 
+2.1. Tổng quan
+c. Phân loại giao thức truyền thông trong IoT:
+ 
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.1. Tổng quan
+c. Phân loại giao thức truyền thông trong IoT: 
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+a. IEEE 802.15.4 (ZigBee, 6LoWPAN) Đặc điểm:
+-	Tiêu chuẩn không dây cho mạng cảm biến không dây với khoảng cách ngắn.
+-	Tốc độ dữ liệu thấp (250 kbps) và tiêu thụ năng lượng thấp.
+Ưu điểm:
+-	Phù hợp với các ứng dụng IoT có yêu cầu về pin và chi phí thấp.
+-	Hỗ trợ một số lượng lớn nút mạng và khả năng mở rộng tốt.
+Ứng dụng trong IoT:
+-	Mạng cảm biến không dây trong nhà thông minh, nông nghiệp, công nghiệp.
+-	Mạng lưới thiết bị đeo và giám sát sức khỏe.
+ 
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+a.	IEEE 802.15.4 (ZigBee, 6LoWPAN) 
+-	ZigBee là một giao thức truyền thông không dây được ứng dụng trong mạng cảm biến không dây và hệ thống điều khiển.
+-	ZigBee hoạt động trên tiêu chuẩn IEEE 802.15.4, ở băng tần 2.4 GHz,
+915 MHz hoặc 868 MHz
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+a.	IEEE 802.15.4 (ZigBee, 6LoWPAN) 
+ZigBee:
+-	Tiêu thụ năng lượng thấp: có thể chuyển sang trạng thái ngủ (sleep mode) khi không hoạt động, giúp kéo dài tuổi thọ pin
+-	Tốc độ truyền dữ liệu thấp: tốc độ truyền dữ liệu tối đa là 250 kbps
+-	Mạng lưới (mesh network): Dễ dàng triển khai và mở rộng
+-	Độ bảo mật cao: mã hóa AES-128 và xác thực thiết bị
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+a.	IEEE 802.15.4 (ZigBee, 6LoWPAN) 
+Fig 1. Module thu phát RF 2.4Ghz Xbee S2C
+-	Chuẩn kết nối: UART
+-	Khoảng cách truyền nhận: 1.6KM
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+a.	IEEE 802.15.4 (ZigBee, 6LoWPAN) 
+ 
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+a.	IEEE 802.15.4 (ZigBee, 6LoWPAN) 
+ 
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+a.	IEEE 802.15.4 (ZigBee, 6LoWPAN) 
+ 
+Fig 1: Gateway Mqtt2ZIBEE
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+b.	Wi-Fi:
+-	Là một họ các giao thức mạng không dây, dựa trên các tiêu chuẩn của họ IEEE 802.11.
+-	Được sử dụng rộng rãi trong cho việc kết nối không dây của thiết bị trong mạng nội bộ và việc kết nối
+Internet
+-	Cho phép các thiết bị điện tử trong phạm vi ngắn chia sẻ dữ liệu thông qua sóng vô tuyến.
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+b.    Wi-Fi:
+Các chuẩn Wi-Fi phổ biến: 
+-	802.11a/b/g: Băng tần 2.4 GHz hoặc 5 GHz, tốc độ tối đa 54 Mbps.
+-	802.11n: Băng tần 2.4 GHz và 5 GHz, tốc độ tối đa 600 Mbps.
+-	802.11ac: Băng tần 5 GHz, tốc độ tối đa 1300 Mbps
+ 
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+b.    Wi-Fi:
+Ưu điểm:
+-	Tốc độ truyền dữ liệu cao và độ trễ thấp.
+-	Phạm vi phủ sóng khoảng 50-100 mét.
+-	Tương thích với nhiều thiết bị và hệ thống khác nhau.
+Nhược điểm:
+-	Tiêu thụ năng lượng cao hơn so với các giao thức khác như ZigBee và BLE.
+-	Chi phí triển khai và bảo trì cao hơn.
+-	Vấn đề bảo mật và can nhiễu tín hiệu.
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+b.    Wi-Fi:
+ 
+	Fig 1. Module ESP-01	Fig 2. Router WI-FI	Fig 3. Router WI-FI Mesh
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+b.    Wi-Fi:
+ 
+Fig 1. Arduino kết nối với ESP-01 với 
+Fig 2. ESP32 giao thức UART
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+b.    Wi-Fi:
+Bo mạch ESP32
+-	ESP32 là một dòng vi điều khiển tích hợp
+-	Hỗ trợ cả Wi-Fi 802.11 b/g/n và Bluetooth v4.2
+-	Hỗ trợ nhiều loại giao tiếp như I2C, SPI, UART
+-	Tích hợp các tính năng bảo mật như mã hóa, xác thực và lưu trữ an toàn
+Fig 2. Một số phiên bản ESP32
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+b.    Wi-Fi:
+Bo mạch ESP32
+ESP32 tích hợp kết nối Wi-Fi với 5 chế độ:
+-	Chế độ STA (Station Mode)
+-	Chế độ AP (Access Point Mode)
+-	Chế độ STA+AP (Station and Access Point Mode)
+-	Chế độ Wi-Fi Direct (P2P Mode)
+-	Chế độ WPS (Wi-Fi Protected Setup)
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+b.    Wi-Fi:
+Bo mạch ESP32
+Chế độ STA (Station Mode): hoạt động như một thiết bị client, kết nối đến một mạng Wi-Fi có sẵn.
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+b.    Wi-Fi:
+Bo mạch ESP32
+Chế độ STA (Station Mode):
+ 
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+b.    Wi-Fi:
+Bo mạch ESP32
+Chế độ AP (Access Point Mode):
+-	Hoạt động như một điểm truy cập Wi-Fi, cho phép các thiết bị khác kết nối đến nó.
+-	ESP32 tạo ra một mạng Wi-Fi mới với SSID và mật khẩu do người dùng
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+b.    Wi-Fi:
+Bo mạch ESP32
+Chế độ AP (Access Point Mode):
+ 
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+b.    Wi-Fi:
+Bo mạch ESP32
+Chế độ AP (Access Point Mode): 
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+b.    Wi-Fi:
+Bo mạch ESP32
+-	Chế độ STA+AP (Station and Access Point Mode)
+-	Chế độ Wi-Fi Direct (P2P Mode): SP32 có thể kết nối trực tiếp với một thiết bị khác hỗ trợ WiFi Direct mà không cần thông qua điểm truy cập
+-	Chế độ WPS (Wi-Fi Protected Setup): cho phép thiết lập kết nối Wi-Fi bằng cách nhấn nút hoặc sử dụng mã PIN
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+b.    Wi-Fi:
+Bo mạch ESP32
+ 
+ 
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+Câu 1: Wi-Fi là gì và nó hoạt động trên băng tần nào? Nêu và giải thích ngắn gọn các chuẩn Wi-Fi phổ biến (802.11a/b/g/n/ac)?
+Câu 2: ESP32 hỗ trợ những chế độ Wi-Fi nào? Giải thích ngắn gọn từng chế độ?
+Câu 3: Trong trường hợp ESP32 không thể kết nối với mạng Wi-Fi, bạn sẽ gỡ lỗi và khắc phục như thế nào?
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+c.    Bluetooth Low Energy (BLE)
+-	Bluetooth là một tiêu chuẩn để truyền dữ liệu không dây tầm ngắn giữa các thiết bị có chip tương thích. 
+-	Có hai công nghệ chính trong thông số kỹ thuật cốt lõi của Bluetooth:
++ Bluetooth classic;
++ Bluetooth Smart (Bluetooth Low Energy)
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+c.    Bluetooth Low Energy (BLE)
+Bluetooth cổ điển (Bluetooth Classic):
+-	Công bố lần đầu năm 1999.
+-	Được thiết kế để truyền dữ liệu hai chiều
+-	Hiệu quả cao nhưng chỉ ở khoảng cách ngắn.
+Source: https://vi.wikipedia.org/wiki/Bluetooth
+ 
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+c.    Bluetooth Low Energy (BLE)
+Bluetooth Low Energy (BLE), còn được gọi là Bluetooth Smart, là một phiên bản tiết kiệm năng lượng của công nghệ Bluetooth giới thiệu vào năm 2010, được thiết kế đặc biệt cho các ứng dụng IoT với một số đặc điểm:
+-	Tiệu thụ năng lượng cực thấp
+-	Kết nối nhanh
+-	Tốc độ truyền thấp
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+c.    Bluetooth Low Energy (BLE)
+Câu hỏi: Hãy so sánh điểm khác biệt của 2 công nghệ Bluetooth hiện nay? 
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+c.    Bluetooth Low Energy (BLE) 
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+c.    Bluetooth Low Energy (BLE)
+Khi kết nối với BLE sẽ có 2 thiết bị chính bao gồm máy chủ (Server/Central) và máy khách (Client/Peripheral):
+- Server sẽ phát tín hiệu chứng tỏ nó đang tồn tại để các Client có thể tìm thấy và đọc dữ liệu của Server.
+-  
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+ c.    Bluetooth Low Energy (BLE) 
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+c.    Bluetooth Low Energy (BLE)
+BLE hỗ trợ 2 chế độ:
+-	Broadcast mode: Server truyền thông tin dữ liệu đến các Client đã kết nối
+-	Mesh network: Tất cả các thiết bị đều được kết nối
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+c.    Bluetooth Low Energy (BLE)
+GATT (Generic Attributes)
+GATT giúp xác định cấu trúc dữ liệu phân cấp và hiển thị cho các thiết bị BLE đã được kết nối. GATT có thể hiểu là giao thức giúp xác định cách mà Server và Client gửi và nhận tin nhắn.
+ 
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+c.    Bluetooth Low Energy (BLE) GATT (Generic Attributes)
+ 
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+c.    Bluetooth Low Energy (BLE) GATT (Generic Attributes)
+ 
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+c.    Bluetooth Low Energy (BLE) GATT (Generic Attributes)
+ 
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+c.    Bluetooth Low Energy (BLE)
+ 
+ 
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+c.	Bluetooth Low Energy (BLE)
+Nguyên lý làm việc – Kết nối
+Thiết bị trung tâm (central) khởi tạo và quản lý kết nối với các thiết bị ngoại vi.
+Thiết bị ngoại vi (peripheral) quảng bá thông tin và chấp nhận kết nối từ thiết bị trung tâm.
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+d.	Lora (Long Range)
+Giới thiệu chung
+-	LoRa (Long Range) là một công nghệ truyền thông không dây tầm xa.
+-	Nó được phát triển bởi Cycleo, một công ty của Grenoble, Pháp và được cấp bằng sáng chế vào năm 2014
+-	Được thiết kế để truyền dữ liệu với tốc độ thấp qua khoảng cách lớn với mức tiêu thụ năng lượng thấp.
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+d.    Lora (Long Range) Giới thiệu chung
+ 
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+d.    Lora (Long Range)
+Đặc điểm
+-	LoRa hướng tới các kết nối M2M ở khoảng cách lớn.
+-	Có thể hỗ trợ liên lạc ở khoảng cách lên tới 15 – 20 km, với hàng triệu node mạng.
+-	Tốc độ thấp từ 0,3kbps đến khoảng 30kbps
+-	LoRa có thể duy trì kết nối và chia sẻ dữ liệu trong thời gian lên đến 10 năm chỉ với năng lượng pin.
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+d.    Lora (Long Range)
+ 
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+d.    Lora (Long Range)
+Băng tần hoạt động của công nghệ LoRa nằm trong khoảng từ 430MHz đến 915MHz, áp dụng cho các khu vực khác nhau trên thế giới.
+-	Dải băng tần 430MHz cho khu vực châu Á
+-	Dải băng tần 780MHz cho khu vực Trung Quốc
+-	Dải băng tần 433MHz hoặc 866MHz cho khu vực châu Âu
+-	Dải băng tần 915MHz cho khu vực USA
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+d.    Lora (Long Range)
+Fig 1. Mạch thu phát RF Lora-02	Fig 2. Mạch thu phát ESP32 - 	Fig 3. LoRa Gateway Raspberry 
+	Lorra	Pi Hat
+ 
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+d.    Lora (Long Range)
+Thư viện: https://github.com/sandeepmistry/arduino-LoRa 
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+d.    Lora (Long Range)
+Gửi dữ liệu
+ 
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+d.    Lora (Long Range)
+Nhận dữ liệu
+ 
+2.2. Giao thức tầng vật lý và liên kết dữ liệu
+d.    Lora (Long Range)
+ 
+2.3. Giao thức tầng mạng
+-	Trong IoT, giao thức tầng mạng đóng vai trò quan trọng trong việc định tuyến và truyền tải dữ liệu giữa các thiết bị trong mạng.
+-	Giao thức tầng mạng xác định cách thức các gói tin được định tuyến từ nguồn đến đích
+Một số giao thức tầng mạng phổ biến trong IoT:
+-	IPv6 over Low-Power Wireless Personal Area Networks 
+(6LoWPAN)
+-	LoRaWAN
+-	MQTT (Message Queuing Telemetry Transport)
+-	CoAP (Constrained Application Protocol)
+2.3. Giao thức tầng mạng
+a. 6LoWPAN (IPv6 over Low power, Wireless Personal Area Networks)
+-	6LoWPAN là một giao thức tầng mạng được thiết kế để truyền tải gói tin IPv6 qua các mạng không dây công suất thấp phù hợp tiêu chuẩn IEEE 802.15.4.
+-	Cho phép kết nối trực tiếp các thiết bị IoT với mạng Internet sử dụng địa chỉ IPv6, mà không cần thông qua các gateway hoặc bộ chuyển đổi giao thức.
+ 
+2.3. Giao thức tầng mạng
+a. 6LoWPAN (IPv6 over Low power, Wireless Personal Area Networks)
+IEEE 802.15.4 là một chuẩn không dây được thiết kế cho các mạng cảm biến không dây công suất thấp và tốc độ truyền dữ liệu thấp.
+2.3. Giao thức tầng mạng
+a. 6LoWPAN (IPv6 over Low power, Wireless Personal Area Networks)
+Lớp Vật lý (Physical layers):
+-	Đây là lớp thấp nhất trong mô hình OSI, chịu trách nhiệm cho việc truyền và nhận dữ liệu thô qua một kênh truyền dẫn
+-	Lớp này xác định cách thức mã hóa tín hiệu và tần số vô tuyến sẽ được sử dụng để truyền dữ liệu.
+2.3. Giao thức tầng mạng
+a. 6LoWPAN (IPv6 over Low power, Wireless Personal Area Networks)
+Lớp MAC (Medium access control):
+-	Lớp này làm việc trực tiếp với lớp Vật lý và quản lý việc truy cập vào môi trường truyền thông.
+-	Nó định thời điểm mà một thiết bị có thể gửi dữ liệu và cách thức mà các tín hiệu sẽ được truyền để tránh xung đột và va chạm dữ liệu.
+2.3. Giao thức tầng mạng
+a. 6LoWPAN (IPv6 over Low power, Wireless Personal Area Networks)
+Logical link control - LLC:
+- Lớp này hoạt động ở trên lớp MAC và giúp cung cấp một giao diện có thể làm việc với các loại mạng khác nhau.
+2.3. Giao thức tầng mạng
+a. 6LoWPAN (IPv6 over Low power, Wireless Personal Area Networks)
+Lớp hợp nhất (Convergence sublayers):
+-	Lớp hợp nhất có nhiệm vụ làm cho lớp dữ liệu phù hợp với các yêu cầu của lớp LLC ở trên.
+-	Các lớp hợp nhất không phải lúc nào cũng cần thiết hoặc sử dụng.
+-	Chúng có thể cung cấp sự chuyển đổi giữa các định dạng dữ liệu hoặc các loại mạng khác nhau.
+ 
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.3. Giao thức tầng mạng
+a. 6LowPAN (IPv6over Low power,cWireless Personal AreaNetworks)
+Câu hỏi: Tại sao 6LoWPAN sử dụng gói tin IPv6 thay vì IPv4?  
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.3. Giao thức tầng mạng
+a. 6LowPAN (IPv6over Low power,cWireless Personal AreaNetworks)
+ 
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.3. Giao thức tầng mạng
+a. 6LowPAN (IPv6over Low power,cWireless Personal AreaNetworks)
+-	Không gian địa chỉ lớn hơn
+-	Hỗ trợ tốt hơn cho các tính năng mạng
+-	Tự động cấu hình và quản lý mạng
+-	Tương thích với xu hướng chuyển đổi sang IPv6
+-	Hỗ trợ các giao thức tầng ứng dụng dựa trên IP
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.3. Giao thức tầng mạng
+a. 6LowPAN (IPv6over Low power,cWireless Personal AreaNetworks)
+Đặc điểm:
+-	Cho phép truyền tải gói tin IPv6 qua các mạng không dây công suất thấp.
+-	Tối ưu hóa kích thước gói tin và header để phù hợp với băng thông và tài nguyên hạn chế.
+-	Hỗ trợ định tuyến và tính di động của các thiết bị trong mạng.
+ 
+2.3. Giao thức tầng mạng
+a. 6LowPAN
+Kiến trúc mạng
+[1] Xu, Sendren Sheng-Dong & Pancev, I & Baihaqi, Muhammad. (2023). Design and Implementation of a 6LoWPANBased Lightweight Wireless Embedded Internet Platform for IoT Applications. Journal of Internet Technology. 24. 323332. 10.53106/160792642023032402011. 
+ 
+2.3. Giao thức tầng mạng
+a. 6LowPAN
+Kiến trúc mạng 
+2.3. Giao thức tầng mạng
+a. 6LowPAN
+Kiến trúc mạng 
+2.3. Giao thức tầng mạng
+a. 6LowPAN
+Ứng dụng
+Nhà thông minh (Smart home)
+-	6LoWPAN cho phép kết nối và điều khiển các thiết bị gia dụng thông minh như đèn, công tắc, cảm biến, điều hòa, v.v.
+-	Tạo tính liền mạch hệ thống nhà thông minh, dễ dàng quản lý và điều khiển từ xa thông qua mạng Internet.
+Công nghiệp thông minh (Smart industry)
+-	6LoWPAN được sử dụng trong các ứng dụng công nghiệp như giám sát và điều khiển thiết bị, quản lý năng lượng, bảo trì dự đoán, v.v.
+-	Tăng hiệu quả sản xuất, tiết kiệm năng lượng và cải thiện độ tin cậy của hệ thống
+ 
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.3. Giao thức tầng mạng
+a. 6LowPAN
+Phần cứng để sử dung 6LoWPAN
+-	6LoWPAN thường được triển khai trên các module RF tuân thủ tiêu chuẩn IEEE 802.15.4
+-	Microchip RN2483, Atmel AT86RF233, Texas Instruments CC2538, và Nordic nRF52840 
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.3. Giao thức tầng mạng
+a. 6LowPAN
+Phần cứng để sử dung 6LoWPAN 
+Fig 1. Arduino kết nối với Microchip RN2483
+2.3. Giao thức tầng mạng
+a. 6LowPAN
+Phần cứng để sử dung 6LoWPAN
+ 
+Fig 1. Seeed Studio XIAO NRF52840
+ 
+ 
+Fig 2. Arduino Nano 33 BLE nRF52840
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.3. Giao thức tầng mạng
+Câu 1: 6LoWPAN là gì? Trình bày kiếm trúc các thành phần của IEEE 802.15.4?
+Câu 2:  
+https://rfd.gov.vn/UserControls/Publishing/News/BinhLuan/pFo
+2.3. Giao thức tầng mạng	rmPrint.aspx?UrlListProcess=/content/tintuc/Lists/News&ListId =&SiteId=&ItemID=2590&SiteRootID=&isEn=False
+ 
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.3. Giao thức tầng mạng
+b. LoRaWAN
+-	LoRaWAN hay Long Range Wireless Area Network là một kiến trúc hệ thống và giao thức truyền thông trong mạng dựa trên Lora
+-	Là một giao thức truyền thông không dây tầm xa và tiêu thụ ít năng lượng, được thiết kế đặc biệt cho các ứng dụng Internet of Things (IoT).
+2.3. Giao thức tầng mạng
+b. LoRaWAN
+Đặc điểm
+-	Tầm xa: LoRaWAN cho phép truyền dữ liệu trong phạm vi từ vài km đến hàng chục km, tùy thuộc vào môi trường và cấu hình thiết bị.
+-	Tiêu thụ năng lượng thấp: LoRaWAN có mức tiêu thụ năng lượng rất thấp từ 20 đến 25 mW. 
+Wi-Fi (100-200 mW)
++ Điện thoại di động (500-2000 mW)
+Ví dụ: Module SX1272 tiêu thụ dòng 0,1 μA ở chế độ ngủ sâu và 10 mA khi phát với công suất 25 mW.
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.3. Giao thức tầng mạng
+b. LoRaWAN
+Đặc điểm
+-	Dung lượng mạng lớn: Một gateway LoRaWAN có thể hỗ trợ hàng ngàn thiết bị đầu cuối, cho phép triển khai mạng IoT quy mô lớn.
+-	Bảo mật: LoRaWAN cung cấp các cơ chế bảo mật đầu cuối (end-to-end) như mã hóa AES-128 và xác thực thiết bị để bảo vệ dữ liệu và mạng
+2.3. Giao thức tầng mạng
+b. LoRaWAN
+Đặc điểm
+-	Dải tần không cấp phép: LoRaWAN hoạt động trên các dải tần không cần cấp phép như 868 MHz (châu Âu), 915 MHz (Bắc Mỹ) và 433 MHz (châu Á), giúp đơn giản hóa việc triển khai và giảm chi phí.
+-	Chuẩn mở: LoRaWAN là một chuẩn mở được quản lý bởi Liên minh LoRa (LoRa Alliance), cho phép sự tương tác giữa các thiết bị và mạng từ nhiều nhà cung cấp khác nhau.
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.3. Giao thức tầng mạng
+b. LoRaWAN
+Các thành phần của mạng LoRaWAN bao gồm
+Câu hỏi: Nhìn hình bên, ch biết mô hình LoraWAN có bao nhiêu thành phần?
+2.3. Giao thức tầng mạng
+b. LoRaWAN
+1. End Devices (thiết bị cuối) hỗ trợ LoRaWAN:
+-	Thu thập dữ liệu từ các cảm biến như nhiệt độ, độ ẩm, ánh sáng, chuyển động,…
+-	Gửi dữ liệu đã thu thập qua mạng LoRaWAN đến Network Server và Application Server.
+-	Nhận và thực hiện các lệnh điều khiển từ Application Server để điều khiển các thiết bị như rơ-le, van, động cơ,….
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.3. Giao thức tầng mạng
+b. LoRaWAN
+1. End Devices (thiết bị cuối) hỗ trợ LoRaWAN
+Phân loại
+Câu hỏi: Có mấy loại thiết bị có thể có trong các thiết bị IoT? Đối với LoraWAN thì như thế nào?
+2.3. Giao thức tầng mạng
+b. LoRaWAN
+1. End Devices (thiết bị cuối) hỗ trợ LoRaWAN
+Phân loại
+-	Class A: Thiết bị chỉ gửi dữ liệu khi cần và hoạt động trong thời gian. Đây là loại thiết bị phổ biến nhất và tiết kiệm năng lượng nhất.
+-	Class B: Thực hiện việc cố định để nhận lệnh từ máy chủ. Tiêu thụ nhiều năng lượng hơn Class A nhưng cho phép điều khiển thiết bị theo thời gian thực.
+-	Class C: Thiết bị  luôn hoạt để truyền dữ liệu. Tiêu thụ nhiều năng lượng nhất nhưng cho phép truyền thông hai chiều liên tục.
+ 
+2.3. Giao thức tầng mạng
+b. LoRaWAN
+1. End Devices (thiết bị cuối) hỗ trợ LoRaWAN Cấu hình và quản lý:
+-	End Devices được cấu hình với các thông số như tần số, định danh (DevEUI), khóa ứng dụng (AppKey), v.v.
+-	Việc quản lý và giám sát End Devices thường được thực hiện thông qua giao diện người dùng hoặc API của Application Server.
+2.3. Giao thức tầng mạng
+b. LoRaWAN
+2. Gateway LoRaWAN:
+-	Nhận dữ liệu từ các End Devices thông qua giao thức LoRa.
+-	Chuyển tiếp dữ liệu nhận được đến Network Server thông qua kết nối IP (thường là Ethernet hoặc 3G/4G).
+-	Phát các gói tin từ Network Server xuống các End Devices trong vùng phủ sóng của Gateway.
+-	Thực hiện một số chức năng cấp thấp như lọc gói tin, kiểm tra tính hợp lệ và tính toàn vẹn của dữ liệu.
+2.3. Giao thức tầng mạng
+b. LoRaWAN
+2. Gateway LoRaWAN:
+-	Gồm bộ thu phát LoRa, bộ xử lý, bộ nhớ và giao diện mạng (Ethernet, 3G/4G).
+-	Ăng-ten với độ lợi cao để tăng vùng phủ sóng.
+-	Được thiết kế để hoạt động liên tục và chịu được điều kiện môi trường khắc nghiệt.
+2.3. Giao thức tầng mạng
+b. LoRaWAN
+2. Gateway LoRaWAN:
+ 
+ 
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.3. Giao thức tầng mạng
+b. LoRaWAN
+2. Gateway LoRaWAN:
+Vùng phủ sóng:
+-	Gateway LoRaWAN có thể phủ sóng trong phạm vi từ vài kilomet đến hàng chục kilomet tùy thuộc vào môi trường và địa hình.
+-	Một Gateway duy nhất có thể hỗ trợ hàng ngàn End Devices trong vùng phủ sóng
+2.3. Giao thức tầng mạng
+b. LoRaWAN
+3. Network server (máy chủ mạng): 
+-	Quản lý toàn bộ hệ thống mạng, các thông số thích hợp để điều chỉnh hệ thống và thiết lập kết nối AES 128-bit an toàn để truyền tải và kiểm soát dữ liệu. 
+-	Quản lý thông tin và trạng thái của các thiết bị đầu cuối (end devices) trong mạng 
+LoRaWAN.
+-	Xử lý và định tuyến các gói tin LoRaWAN giữa các thiết bị đầu cuối và ứng dụng..
+-	Cung cấp giao diện quản lý và giám sát mạng cho người dùng.
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.3. Giao thức tầng mạng
+b. LoRaWAN
+3. Network server (máy chủ mạng): 
+Sử dụng giải pháp có sẵn:
+Các nhà cung cấp dịch vụ LoRaWAN: The Things Network, Chirpstack, Loriot
+ 
+2.3. Giao thức tầng mạng
+b. LoRaWAN
+3. Network server (máy chủ mạng): 
+Tự triển khai Network Server:
+-	Tự cài đặt và triển khai LoRaWAN Network Server trên máy chủ của riêng.
+-	Một số phần mềm mã nguồn mở phổ biến để triển khai Network Server là Chirpstack, LoRa Server, v.v.
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.3. Giao thức tầng mạng
+b. LoRaWAN
+3. Network server (máy chủ mạng): 
+Câu hỏi: Ưu điểm và hạn chế của việc sử dụng dịch vụ có sẵn và tự xây dựng máy chủ LoraWAN Network server là gì?
+2.3. Giao thức tầng mạng
+b. LoRaWAN
+4. Join Server:
+-	Join Server là một thành phần quan trọng chịu trách nhiệm quản lý quá trình gia nhập mạng của các thiết bị đầu cuối (end devices)
+-	Xác thực và ủy quyền cho các thiết bị đầu cuối khi chúng muốn gia nhập mạng LoRaWAN.
+-	Tạo và cung cấp khóa phiên (session keys) cho thiết bị đầu cuối và Network Server sau khi quá trình gia nhập thành công.
+-	Quản lý thông tin về thiết bị, như DevEUI (Device EUI), AppEUI (Application EUI), và AppKey (Application Key).
+ 
+2.3. Giao thức tầng mạng
+b. LoRaWAN
+5. Application servers:
+-	Nhận dữ liệu từ các thiết bị đầu cuối thông qua Network Server.
+-	Giải mã và xử lý dữ liệu theo yêu cầu của ứng dụng cụ thể.
+-	Lưu trữ dữ liệu vào cơ sở dữ liệu hoặc chuyển tiếp đến các hệ thống khác.
+-	Cung cấp giao diện và API để truy xuất và quản lý dữ liệu ứng dụng.
+-	Thực hiện các hành động hoặc gửi lệnh điều khiển đến thiết bị đầu cuối thông qua Network Server.\.
+2.3. Giao thức tầng mạng
+b. LoRaWAN
+Câu hỏi: Hãy mô tả lại quá trình gửi/nhận dữ liệu trong mô hình LoraWAN?
+ 
+2.4. Tầng ứng dụng
+Bài tập phân tích: Ứng dụng một số kỹ thuật trong truyền thông dữ liệu IoT để lựa chọn, phân tích những ưu điểm/hạn chế khi áp dụng vào một số bài toán sau: a. Nhà thông minh (Điều khiển thiết bị trong nhà)
+b.	Nông nghiệp (Thu thập thông số MT và điều khiển tưới tiêu)
+c.	Giám sát chất lượng môi trường (Thành phố thông minh)
+d.	Giao thông thông minh (Điều kiển tín hiệu đèn GT)
+Trình bày dưới dạng sơ đồ tổng quát và phân tích ưu/khuyết điểm.
+2.4. Tầng ứng dụng
+a. MQTT 
+MQTT (Message Queuing Telemetry Transport) là một giao thức truyền thông được thiết kế cho các ứng dụng IoT (Internet of Things).
+Hoạt động ở tầng ứng dụng, sử dụng mô hình publish/subscribe (xuất bản/đăng ký) để truyền các thông điệp giữa các thiết bị với băng thông thấp và độ tin cậy cao.
+ 
+2.4. Tầng ứng dụng
+a. MQTT (Lịch sử) 
+ 
+2.4. Tầng ứng dụng
+a. MQTT 
+Đặc điểm chính:
+1. Publish/Subscribe:
+-	Sử dung mô hình giao tiếp một - nhiều gồm 3 phần: Broker (máy chủ), Publisher (bên xuất bản), Subscriber (bên đăng ký).
+-	Publisher gửi (publish) dữ liệu về một topic tới broker và Subscriber đăng ký (subscribe) nhận dữ liệu từ một topic với broker.
+-	Broker làm nhiệm vụ nhận, lọc và chuyển tiếp dữ liệu giữa Publisher và Subscriber dựa vào topic.
+2.4. Tầng ứng dụng
+a. MQTT 
+Đặc điểm chính
+2. Payload/QoS:
+- Payload: là phần nội dung thực sự chứa dữ liệu của một thông điệp được Client gửi đến Broker hay được Broker phân phối lại cho các Client đã đăng ký.
+2.4. Tầng ứng dụng
+a. MQTT 
+Đặc điểm chính
+2. Payload/ QoS/Retained :
+Quality of service (QoS), có ba mức Qos chính :
+-	Qos 0: Đảm bảo thông điệp gửi đi sẽ đến đích nhiều nhất là 1 lần. Thông điệp có thể bị mất khi kết nối bị gián đoạn.
+-	Qos 1: Thông điệp gửi đi đảm bảo sẽ đến đích nhưng có thể bị trùng lắp.
+-	Qos 2: Thông điệp gửi đi đảm bảo đến đích và chỉ đúng 1 lần.
+Mức Qos 2 và Qos 1 thường được sử dụng trong các môi trường không đủ đảm bảo khi mà các thiết bị kết nối qua kết nối kém ổn định.
+2.4. Tầng ứng dụng
+a. MQTT 
+Đặc điểm chính
+2.	Payload/QoS/Retained :
+Retained: MQTT Broker sẽ lưu trữ thông điệp với đầy đủ Payload/Qos/Topic. Khi đó có bất kỳ Client vào đăng ký vào kệnh sẽ nhận được dữ liệu đã được lưu trữ.
+MQTT Broker chỉ giữ một thông điệp Retained duy nhất, thông điệp đánh dấu Retained sau sẽ thay thế cái trước
+2.4. Tầng ứng dụng
+a. MQTT 
+ 
+2.4. Tầng ứng dụng
+a. MQTT 
+Đặc điểm chính
+3. Gọn nhẹ và hiệu quả:
+-	Giao thức đơn giản, dễ cài đặt, phù hợp với thiết bị có tài nguyên hạn chế như cảm biến, vi điều khiển.
+-	Sử dụng băng thông thấp với kích thước gói tin, tiết kiệm pin và dung lượng mạng.
+-	Sử dụng TCP/IP, truyền dữ liệu tin cậy, mã hoá bằng SSL/TLS.
+-	Để dàng tích hợp với các ứng dụng khác.
+2.4. Tầng ứng dụng
+a. MQTT 
+Đặc điểm chính
+3. LWT/Birth message/KeepAlive/WildCard: LWT – Last Will and Testament là một tính năng của MQTT nhằm thông báo đến tất cả client khi một client khác bị mất kết nối ngoài ý muốn.
+ 
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.4. Tầng ứng dụng
+a. MQTT 
+Đặc điểm chính
+3. LWT/Birth message/KeepAlive/WildCard:
+Birth Message được sử dụng để thông báo đến tất cả client (đã subscribe) khi một client kết nối trở lại.
+2.4. Tầng ứng dụng
+a. MQTT 
+Đặc điểm chính
+3. LWT/Birth message/KeepAlive/WildCard:
+KeepAlive: Là khoảng thời gian lớn nhất để một Client và Broker giữ kết nối mà không cần giao tiếp gì với nhau. Thông thường:
+-	Nếu không có thông điệp gì được gửi và nhận, Client vẫn định kỳ gửi một yêu cầu PING đến Broker, Broker cũng sẽ trả về một phản hồi PING.
+-	Nếu sau khoảng thời gian KeepAlive, không có PING nào được gửi và nhận, kết nối sẽ phải được khởi tạo lại từ đầu
+2.4. Tầng ứng dụng
+a. MQTT 
+Đặc điểm chính
+3. LWT/Birth message/KeepAlive/WildCard:
+Topic wildcard (Ký tự đại diện Topic) là cách để Subscriber đăng ký nhận thông điệp từ nhiều Topic khác nhau mà không cần chỉ định chính xác tên của từng topic. 
+Có 2 loại ký tự đại diện được sử dụng:
+-	Single-level wildcard (+): Được biểu thị bằng dấu "+", thay thế cho một level (cấp) trong cây phân cấp topic.
+-	Multi-level wildcard (#): Được biểu thị bằng dấu "#", thay thế cho nhiều level trong topic, kể từ vị trí của nó trở đi (Dấu "#" chỉ có thể đặt ở cuối topic, không đặt ở giữa).
+2.4. Tầng ứng dụng
+a. MQTT 
+Đặc điểm chính
+3. LWT/Birth message/KeepAlive/WildCard:
+Ví dụ: Subscriber đăng ký "home/#" sẽ nhận thông điệp từ tất cả các topic bắt đầu bằng "home/":
++ "home/temperature"
++ "home/livingroom/light"
++ "home/kitchen/humidity/sensor1"
+2.4. Tầng ứng dụng
+a. MQTT 
+Đặc điểm chính
+3. LWT/Birth message/KeepAlive/WildCard:
+Ví dụ: Subscriber đăng ký topic "home/+/temperature" sẽ nhận được thông điệp từ các topic
++ "home/livingroom/temperature"
++ "home/bedroom/temperature"
++ "home/kitchen/temperature"
+2.4. Tầng ứng dụng
+a. MQTT 
+Đặc điểm chính
+3. LWT/Birth message/KeepAlive/WildCard:
+MQTT SYS topics là các topic đặc biệt trong giao thức MQTT, được sử dụng để giám sát và quản lý trạng thái của broker (máy chủ MQTT). Các topic này bắt đầu bằng tiền tố "$SYS/” - $SYS/broker/clients/connected: Số lượng client hiện đang kết nối với broker.
+-	$SYS/broker/clients/total: Tổng số client đã kết nối với broker kể từ khi broker.
+-	$SYS/broker/messages/received: Tổng số tin nhắn (message) mà broker đã nhận. 
+2.4. Tầng ứng dụng
+a. MQTT 
+Đặc điểm chính
+3. LWT/Birth message/KeepAlive/WildCard:
+-	$SYS/broker/messages/sent: Tổng số tin nhắn mà broker đã gửi. 
+-	$SYS/broker/uptime: Thời gian hoạt động của broker tính bằng giây.
+-	$SYS/broker/load/messages/received/1min: Số tin nhắn trung bình mà broker đã nhận trong 1 phút qua. 
+-	$SYS/broker/load/messages/sent/1min: Số tin nhắn trung bình mà broker đã gửi trong 1 phút qua.
+2.4. Tầng ứng dụng
+a. MQTT 
+Đặc điểm chính
+3. Linh hoạt và mở rộng:
+-	Khả năng mở rộng lớn với hàng nghìn kết nối đồng thời tới các broker.
+-	Hỗ trợ các cơ chế gửi thông báo khi mất kết nối (Last Will and Testament), lưu trữ thông điệp (Persistence), kiểm soát truy cập (Username/Password).
+-	Có thể dùng với nhiều ngôn ngữ lập trình khác nhau: Java, Python, JavaScript, C, C++...
+2.4. Tầng ứng dụng
+a. MQTT  
+ 
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.4. Tầng ứng dụng
+a. MQTT 
+Câu hỏi: Trong mô hình MQTT có bao nhiêu thành phần? Chức năng của chúng? Làm sao để tạo được MQTT Broker? 
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.4. Tầng ứng dụng
+a. MQTT 
+MQTT gồm 3 thành phần chính gồm: 
+- Broker (máy chủ); - Publisher (bên xuất bản); - Subscriber (bên đăng ký).
+2.4. Tầng ứng dụng
+a. MQTT 
+HiveMQ:
+-	Là một broker (máy chủ) MQTT thương mại và mã nguồn mở được phát triển bởi công ty HiveMQ GmbH.
+-	Hỗ trợ MQTT 3.1, 3.1.1, hỗ trợ Websocket  (WS).
+-	Nguồn mở công bố trên github - https://github.com/hivemq.
+ 
+2.4. Tầng ứng dụng
+a. MQTT 
+EMQX:
+-	Là một broker (máy chủ) MQTT mã nguồn mở được được thiết kế để xử lý lượng lớn kết nối và thông điệp IoT.
+-	EMQ X hỗ trợ các giao thức truyền thông khác nhau như MQTT, CoAP, LwM2M, 
+MQTT-SN
+-	Nguồn mở công bố trên Github
+2.4. Tầng ứng dụng
+a. MQTT 
+ 
+BÀI TẬP: Một công ty muốn triển khai một hệ thống IoT để giám sát và điều khiển nhiệt độ, độ ẩm trong một tòa nhà văn phòng. Hệ thống bao gồm các cảm biến không dây, bộ điều khiển trung tâm và ứng dụng di động để theo dõi và điều khiển từ xa. Hãy phân tích và đề xuất giải pháp kết nối mạng không dây phù hợp cho hệ thống này?
+a)	Phân tích ưu nhược điểm của: Bluetooth, BLE, Wi-Fi, Lora và LoraWAN trong bối cảnh của hệ thống IoT này
+b)	Thiết kế sơ đồ khối của hệ thống IoT, bao gồm các cảm biến, bộ điều khiển trung tâm, gateway (nếu cần) và ứng dụng di động. Mô tả chức năng và giao thức kết nối giữa các thành phần.
+ 
+CHƯƠNG 2: GIAO THỨC TRUYỀN THÔNG TRONG IOT
+2.4. Tầng ứng dụng
+b. AMQP 
+ 
+CHƯƠNG 3: AN TOÀN BẢO MẬT TRONG IOT
+3.1. Tổng quan về an toàn bảo mật trong IoT
+3.1.1. Tầm quan trọng
+-	Cảm biến và các hệ thống trong hệ sinh thái tạo ra một lượng lớn dữ liệu nhạy cảm 
+-	Thiết bị IoT thường truy cập và điều khiển các hệ thống quan trọng như hạ tầng, y tế, giao thông và năng lượng 
+-	Các lỗ hổng bảo mật trong IoT có thể dẫn đến rò rỉ dữ liệu, tấn công mạng, thiệt hại tài chính và uy tín cho tổ chức 
+-	Bảo mật IoT là yếu tố then chốt để đảm bảo an toàn, quyền riêng tư và tin cậy trong môi trường kết nối 
+CHƯƠNG 3: AN TOÀN BẢO MẬT TRONG IOT
+3.1. Tổng quan về an toàn bảo mật trong IoT
+3.1.2. Các thách thức bảo mật đặc thù trong môi trường IoT
+a.	Đa dạng của thiết bị IoT
+b.	Hạn chế về năng lượng và tài nguyên
+c.	Chu kỳ sống và hỗ trợ dài hạn
+d.	Giao tiếp không bảo mật và thiếu chuẩn hóa
+CHƯƠNG 3: AN TOÀN BẢO MẬT TRONG IOT
+3.1. Tổng quan về an toàn bảo mật trong IoT
+3.1.2. Thách thức bảo mật đặc thù trong môi trường IoT
+a. Đa dạng của thiết bị IoT
+-	IoT bao gồm nhiều loại thiết bị với phần cứng, phần mềm và giao thức khác nhau - Thiết bị IoT thường có năng lực tính toán và lưu trữ hạn chế.
+-	Thiết bị IoT gây khó khăn cho việc quản lý, giám sát và cập nhật bảo mật tập trung b. Hạn chế về năng lượng và tài nguyên
+-	Nhiều thiết bị IoT dựa vào pin, hạn chế khả năng xử lý các thuật toán bảo mật phức tạp
+-	Bộ nhớ và dung lượng lưu trữ hạn chế gây khó khăn cho việc lưu trữ mã hóa và dữ liệu xác thực.
+CHƯƠNG 3: AN TOÀN BẢO MẬT TRONG IOT
+3.1. Tổng quan về an toàn bảo mật trong IoT
+3.1.2. Các thách thức bảo mật đặc thù trong môi trường IoT
+c. Chu kỳ sống và hỗ trợ dài hạn
+-	Thiết bị IoT thường có chu kỳ sống dài, trong khi các mối đe dọa bảo mật liên tục phát triển - Hỗ trợ và cập nhật bảo mật dài hạn cho thiết bị IoT là một thách thức d. Giao tiếp không bảo mật và thiếu chuẩn hóa
+-	Nhiều giao thức truyền thông không được thiết kế với bảo mật làm trọng tâm, dễ bị tấn công và nghe lén.
+-	Thiếu chuẩn hóa và tương thích giữa các nền tảng và giao thức IoT gây khó khăn cho việc triển khai bảo mật toàn diện
+CHƯƠNG 3: AN TOÀN BẢO MẬT TRONG IOT
+3.1. Tổng quan về an toàn bảo mật trong IoT
+3.1.3. Hệ quả của các lỗ hổng bảo mật trong hệ thống IoT
+-	Rò rỉ dữ liệu và vi phạm quyền riêng tư
+-	Tấn công mạng và kiểm soát thiết bị trái phép
+-	Thiệt hại tài chính và uy tín
+-	Nguy cơ an toàn công cộng và cơ sở hạ tầng quan trọng
+CHƯƠNG 3: AN TOÀN BẢO MẬT TRONG IOT
+3.1. Tổng quan về an toàn bảo mật trong IoT
+Câu hỏi
+Câu 1: Làm thế nào mà sự đa dạng và phân tán của thiết bị IoT có thể gây khó khăn cho việc triển khai bảo mật?
+Câu 2: Giải thích tác động của việc thiếu chuẩn hóa và tương thích giữa các nền tảng và giao thức IoT đối với bảo mật?
+ 
+3.2. Các nguy cơ và mối đe dọa bảo mật phổ biến trong IoT
+3.2.1. Tấn công từ chối dịch vụ (DoS/DDoS)
+-	DoS: Kẻ tấn công làm quá tải hoặc ngăn chặn truy cập đến thiết bị, dịch vụ hoặc mạng IoT - DDoS: Nhiều thiết bị bị xâm nhập (botnet) cùng tấn công một mục tiêu.
+-	Thiết bị IoT thường có khả năng chống chịu thấp trước các cuộc tấn công DoS/DDoS
+ 
+3.2. Các nguy cơ và mối đe dọa bảo mật phổ biến trong IoT
+3.2.2. Tấn công trung gian (Man-in-the-Middle attacks)
+-	Kẻ tấn công đặt mình giữa hai bên giao tiếp, nghe lén hoặc thay đổi dữ liệu truyền thông
+-	Các giao thức truyền thông IoT không mã hóa hoặc xác thực yếu làm tăng nguy cơ tấn công
+ 
+3.2. Các nguy cơ và mối đe dọa bảo mật phổ biến trong IoT
+3.2.3. Tấn công vật lý và truy cập trái phép
+-	Kẻ tấn công truy cập vật lý vào thiết bị IoT để đánh cắp dữ liệu, cài đặt malware hoặc thay đổi cấu hình.
+-	Thiết bị IoT thường được triển khai trong môi trường không an toàn hoặc không có giám sát. - Các cổng giao tiếp (USB, JTAG).
+ 
+CHƯƠNG 3: AN TOÀN BẢO MẬT TRONG IOT
+3.2. Các nguy cơ và mối đe dọa bảo mật phổ biến trong IoT
+3.2.4. Malware và phần mềm độc hại
+-	Malware (virus, trojan, spyware,…) được thiết kế để xâm nhập và gây hại cho hệ thống IoT.
+-	Thiết bị IoT thường thiếu cơ chế bảo vệ mạnh mẽ do hạn chế tài nguyên.
+-	Malware có thể lây lan qua mạng, email, ứng dụng độc hại hoặc khai thác lỗ hổng phần mềm. 
+CHƯƠNG 3: AN TOÀN BẢO MẬT TRONG IOT
+3.3. Các biện pháp bảo mật cho thiết bị IoT
+3.3.1. Mã hóa dữ liệu và truyền thông bảo mật
+-	Sử dụng các giao thức mã hóa mạnh (AES, RSA) để bảo vệ dữ liệu lưu trữ và truyền thông
+-	Triển khai SSL/TLS để thiết lập kênh truyền thông an toàn giữa thiết bị IoT, gateway và máy chủ
+-	Mã hóa end-to-end để đảm bảo dữ liệu được bảo vệ trong toàn bộ vòng đời, ngay cả khi bị truy cập trái phép
+-	Quản lý và bảo vệ an toàn khóa mật mã, tránh sử dụng mật mã yếu hoặc dễ bị tấn công
+CHƯƠNG 3: AN TOÀN BẢO MẬT TRONG IOT
+3.3. Các biện pháp bảo mật cho thiết bị IoT
+3.3.2. Xác thực và quản lý danh tính
+-	Triển khai cơ chế xác thực mạnh (chứng chỉ, token, sinh trắc học) để xác minh danh tính thiết bị và người dùng
+-	Sử dụng chuẩn OAuth, JWT để cấp quyền và kiểm soát truy cập an toàn
+-	Thực hiện quản lý danh tính tập trung, theo dõi và đình chỉ quyền truy cập khi cần thiết
+CHƯƠNG 3: AN TOÀN BẢO MẬT TRONG IOT
+3.3. Các biện pháp bảo mật cho thiết bị IoT
+3.3.3. Cập nhật và vá lỗi phần mềm định kỳ
+-	Thiết lập quy trình cập nhật phần mềm an toàn và tin cậy (FOTA - Firmware Over-the-Air)
+-	Kiểm tra tính toàn vẹn của bản cập nhật để tránh cài đặt phần mềm giả mạo hoặc độc hại 
+CHƯƠNG 3: AN TOÀN BẢO MẬT TRONG IOT
+3.3. Các biện pháp bảo mật cho thiết bị IoT
+3.3.4. Bảo vệ vật lý cho thiết bị IoT
+-	Lắp đặt thiết bị IoT trong môi trường an toàn, hạn chế truy cập trái phép
+-	Sử dụng vỏ bảo vệ, khoá và cảm biến chuyển động để ngăn chặn truy cập vật lý 
+CHƯƠNG 3: AN TOÀN BẢO MẬT TRONG IOT
+3.3. Các biện pháp bảo mật cho thiết bị IoT
+Câu hỏi:
+Câu 1: Giải thích tầm quan trọng của việc mã hóa dữ liệu và truyền thông bảo mật trong IoT? Câu 2: Làm thế nào để quản lý danh tính và truy cập thiết bị IoT một cách hiệu quả? Nêu một ví dụ cụ thể?
+Câu 3: Nêu ba biện pháp bảo vệ vật lý cho thiết bị IoT và giải thích tầm quan trọng của từng biện pháp?
+CHƯƠNG 3: AN TOÀN BẢO MẬT TRONG IOT
+3.4. Bảo mật mạng và giao thức truyền thông trong IoT
+3.4.1. Giao thức bảo mật
+-	SSL/TLS: Bảo vệ truyền thông ứng dụng (HTTPS, MQTT over TLS), mã hóa và xác thực dữ liệu
+-	IPSec: Bảo mật ở tầng mạng, mã hóa và xác thực gói tin IP, thường được sử dụng trong kết nối site-to-site
+-	VPN: Thiết lập kênh truyền thông an toàn trên mạng công cộng, kết nối từ xa và truy cập an toàn vào mạng nội bộ
+ 
+3.4. Bảo mật mạng và giao thức truyền thông trong IoT
+3.4.1. Giao thức bảo mật
+ 
+3.4. Bảo mật mạng và giao thức truyền thông trong IoT
+3.4.2. Bảo mật mạng không dây (Wi-Fi, Bluetooth, Zigbee)
+-	Wi-Fi: Sử dụng WPA2/WPA3 với mật khẩu mạnh, mã hóa AES, tắt WPS và quảng bá SSID - Bluetooth: Sử dụng Bluetooth Low Energy (BLE) với mã hóa AES-CCM.
+-	Zigbee: Áp dụng mã hóa AES-128, quản lý khóa mạng và khóa liên kết an toàn, xác thực thiết bị
+ 
+3.4. Bảo mật mạng và giao thức truyền thông trong IoT
+3.4.3. Bảo mật giao thức truyền thông đặc thù IoT (MQTT, CoAP)
+-	MQTT: Sử dụng MQTT over TLS, xác thực client (username/password, chứng chỉ), phân quyền chủ đề và mã hóa payload
+-	CoAP: Triển khai CoAP over DTLS, xác thực client và server, mã hóa và kiểm tra tính toàn vẹn của thông điệp
+-	Cấu hình an toàn broker/server, giới hạn truy cập và giám sát lưu lượng để phát hiện bất thường
+-	Đánh giá và cập nhật thường xuyên để vá lỗi bảo mật và nâng cao khả năng chống chịu của giao thức
+ 
+CHƯƠNG 3: AN TOÀN BẢO MẬT TRONG IOT
+3.4. Bảo mật mạng và giao thức truyền thông trong IoT
+Câu hỏi:
+Câu 1: Giải thích vai trò của SSL/TLS trong bảo mật truyền thông IoT. Nêu một ví dụ cụ thể về ứng dụng của SSL/TLS trong IoT?
+Câu 2: So sánh sự khác biệt giữa IPSec và VPN. Khi nào thì nên sử dụng IPSec hoặc VPN trong môi trường IoT?
