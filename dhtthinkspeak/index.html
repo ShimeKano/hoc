@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>ThingSpeak DHT22 Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root { --w: 460px; --h: 260px; }
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { font-size: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--w), 1fr)); gap: 16px; }
+    .card { border: 1px solid #ddd; padding: 8px; border-radius: 8px; }
+    iframe { width: 100%; height: var(--h); border: 0; }
+    .note { color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <h1>ESP32 DHT22 – ThingSpeak Live Charts</h1>
+  <p class="note">
+    Đang dùng Channel ID của bạn (3113477). Nếu kênh Private, đã thêm Read API Key trong URL.
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Nhiệt độ (°C)</h3>
+      <iframe
+        src="https://thingspeak.com/channels/3113477/charts/1?api_key=USWVWDUNRX1TC3IX&bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=200&type=line&title=Temperature+%28%C2%B0C%29&yaxis=Temp+%28%C2%B0C%29">
+      </iframe>
+    </div>
+
+    <div class="card">
+      <h3>Độ ẩm (%)</h3>
+      <iframe
+        src="https://thingspeak.com/channels/3113477/charts/2?api_key=USWVWDUNRX1TC3IX&bgcolor=%23ffffff&color=%2300a65a&dynamic=true&results=200&type=line&title=Humidity+%28%25%29&yaxis=Humidity+%28%25%29">
+      </iframe>
+    </div>
+  </div>
+</body>
+</html>
