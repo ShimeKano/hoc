@@ -1,0 +1,207 @@
+
+TRƯỜNG ĐẠI HỌC SƯ PHẠM KỸ THUẬT VĨNH LONG
+KHOA CÔNG NGHỆ THÔNG TIN
+
+
+
+
+
+TÌM HIỂU VÀ ỨNG DỤNG ZIGBEE
+TRONG HỆ THỐNG NHÀ THÔNG MINH
+
+HỌC PHẦN: MẠNG TRONG IOT
+
+
+
+Sinh viên thực hiện: 
+Tên: Nguyễn Quốc Tuấn, Phan Tuấn Cảnh
+MSSV: 22004249, 22004320
+                     Lớp: DHCNTT22A2, DHCNTT22A3
+                     Khóa: 47
+Người hướng dẫn:  Th.S Nguyễn Khắc Tường
+
+
+
+
+
+
+
+
+
+Vĩnh Long, năm 2025
+TRƯỜNG ĐẠI HỌC SPKT VĨNH LONG 
+KHOA CÔNG NGHỆ THÔNG TIN
+
+NHIỆM VỤ MÔN MẠNG TRONG IOT
+
+Tên đề tài: Tìm hiểu và ứng dụng Zigbee trong hệ thống nhà thông minh
+Nhiệm vụ : Trình bày kiến trúc, thiết bị, module XBee, và demo điều khiển thiết bị điện qua Zigbee.
+Phương pháp đánh giá:     Báo cáo trước hội đồng         Chấm thuyết minh 
+Ngày giao đồ án: ngày……. tháng……. năm….. …
+Ngày hoàn thành đồ án : ngày…… tháng…… năm …….
+Số lượng sinh viên thực hiện đồ án: (không quá 05 sinh viên) 
+Họ và tên sinh viên: Nguyễn Quốc Tuấn
+MSSV: 22004249
+Họ và tên sinh viên: Phan Tuấn Cảnh	
+MSSV: 22004320
+                                                                 
+
+  						Vĩnh Long, ngày ..... tháng...... năm.... Trưởng Khoa/Bộ môn  				             Người hướng dẫn
+                                 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+NHẬN XÉT & ĐÁNH GIÁ ĐIỂM CỦA NGƯỜI HƯỚNG DẪN
+Ý thức thực hiện:......................................................................................................
+..................................................................................................................................
+..................................................................................................................................
+Nội dung thực hiện:..................................................................................................
+..................................................................................................................................
+..................................................................................................................................
+Hình thức trình bày:.......................................................................................................
+..................................................................................................................................
+..................................................................................................................................
+Tổng hợp kết quả: ....................................................................................................
+..................................................................................................................................
+..................................................................................................................................
+•	Tổ chức báo cáo trước hội đồng
+•	Tổ chức chấm thuyết minh
+
+
+Vĩnh Long, ngày…..tháng……năm…….
+Người hướng dẫn
+(Ký và ghi rõ họ tên)
+
+
+ 
+LỜI CẢM ƠN
+Trước hết em xin phép cảm ơn thầy Nguyễn Khắc Tường đã tận tình hướng dẫn và hỗ trợ chúng tôi làm bài báo cáo này, cảm ơn những người đã bỏ thời gian ra đọc báo cáo này và đánh giá cũng như chấm điểm. 
+
+
+
+
+ 
+MỤC LỤC
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+MỤC HÌNH ẢNH
+
+
+
+ 
+
+
+
+MỤC LỤC BẢNG
+
+
+
+
+
+
+ 
+LỜI NÓI ĐẦU
+Trong bối cảnh công nghệ không dây ngày càng phát triển mạnh mẽ, nhu cầu kết nối và trao đổi dữ liệu giữa các thiết bị trở thành yếu tố then chốt trong nhiều lĩnh vực như nhà thông minh, y tế, công nghiệp và nông nghiệp. Zigbee – một chuẩn truyền thông không dây dựa trên IEEE 802.15.4 – nổi bật nhờ đặc điểm tiêu thụ năng lượng thấp, chi phí hợp lý, khả năng mở rộng mạng linh hoạt và độ tin cậy cao.
+Xuất phát từ những ưu điểm đó, đề tài “Tìm hiểu và ứng dụng Zigbee trong hệ thống nhà thông minh” được thực hiện với mục tiêu nghiên cứu nguyên lý hoạt động, kiến trúc, đặc điểm kỹ thuật của Zigbee, đồng thời triển khai thử nghiệm một số ứng dụng thực tế. Qua đó, nhóm mong muốn góp phần làm rõ tiềm năng ứng dụng của Zigbee trong việc xây dựng các giải pháp IoT hiệu quả, tiết kiệm và thân thiện với người dùng.
+
+ 
+ 
+CHƯƠNG 1: TỔNG QUAN ĐỀ TÀI
+1.1	Lý do chọn đề tài
+Trong bối cảnh công nghệ IoT ngày càng phát triển, nhu cầu kết nối và điều khiển các thiết bị điện tử trong đời sống trở nên cấp thiết. Nhiều công nghệ truyền thông không dây như Wi-Fi, Bluetooth hay LoRa đã và đang được ứng dụng, nhưng mỗi công nghệ đều có những hạn chế nhất định về năng lượng, chi phí hoặc khả năng mở rộng. Zigbee xuất hiện như một giải pháp phù hợp cho các hệ thống yêu cầu truyền dữ liệu với dung lượng nhỏ, tiết kiệm năng lượng và hỗ trợ kết nối số lượng thiết bị lớn trong cùng một mạng lưới.
+Trong số các lĩnh vực có thể áp dụng Zigbee, nhóm đặc biệt quan tâm đến nhà thông minh. Đây là lĩnh vực gần gũi, gắn liền trực tiếp với đời sống hàng ngày, đồng thời cũng thể hiện rõ ưu thế của Zigbee: khả năng điều khiển nhiều thiết bị cùng lúc, tính ổn định và mức tiêu thụ năng lượng thấp. So với các ứng dụng khác như giám sát công nghiệp, nông nghiệp hay y tế, mô hình nhà thông minh vừa dễ triển khai ở quy mô nhỏ, vừa mang tính trực quan, giúp việc thử nghiệm và đánh giá trở nên khả thi hơn trong phạm vi của một đề tài nghiên cứu.
+Với những lý do trên, nhóm quyết định lựa chọn đề tài “Tìm hiểu và ứng dụng Zigbee trong hệ thống nhà thông minh” hướng đến việc nghiên cứu lý thuyết, tìm hiểu module XBee và triển khai mô hình minh họa điều khiển thiết bị điện trong nhà thông minh. Đây không chỉ là một hướng đi thực tế, có tính ứng dụng cao mà còn tạo nền tảng cho các nghiên cứu sâu hơn trong tương lai về IoT và các hệ thống tự động hóa.
+1.2	Mục tiêu nghiên cứu	
+
+Đề tài tập trung nghiên cứu công nghệ Zigbee với định hướng ứng dụng trong lĩnh vực nhà thông minh. Trọng tâm là tìm hiểu kiến trúc mạng Zigbee, các loại thiết bị trong hệ thống và đặc biệt là module XBee – thành phần quan trọng để xây dựng kết nối không dây ổn định. Trên cơ sở nghiên cứu lý thuyết, nhóm triển khai mô hình demo điều khiển thiết bị điện thông qua Zigbee, qua đó đánh giá khả năng ứng dụng thực tế của công nghệ này trong việc xây dựng giải pháp tự động hóa gia đình an toàn, tiết kiệm và tiện lợi.
+
+1.3. Đối tượng nghiên cứu
+
+Đề tài tập trung nghiên cứu công nghệ truyền thông không dây Zigbee, xem xét từ cấu trúc mạng, nguyên tắc kết nối cho đến đặc điểm vận hành của các thiết bị thành phần. Trong đó, module XBee được chọn làm đối tượng nghiên cứu chính vì đây là phần cứng phổ biến, hỗ trợ tốt cho việc xây dựng và thử nghiệm các ứng dụng Zigbee. Bên cạnh khía cạnh kỹ thuật, đề tài hướng đến việc khai thác Zigbee trong lĩnh vực nhà thông minh, cụ thể là nghiên cứu cách thức thiết kế hệ thống, tổ chức kết nối và triển khai mô hình điều khiển thiết bị điện qua mạng Zigbee. Việc nghiên cứu này không chỉ nhằm làm rõ tiềm năng ứng dụng mà còn tạo cơ sở thực tiễn để phát triển các giải pháp tự động hóa gia đình.
+
+1.4. Phạm vi nghiên cứu
+
+Đề tài tập trung nghiên cứu công nghệ Zigbee ở mức cơ bản, hướng đến việc áp dụng trong mô hình nhà thông minh. Phạm vi nghiên cứu bao gồm việc tìm hiểu nguyên lý hoạt động, kiến trúc mạng Zigbee, vai trò của các thiết bị trong hệ thống cũng như đặc điểm kỹ thuật của module XBee. Trên cơ sở đó, nhóm tiến hành thiết kế và triển khai một mô hình thử nghiệm nhỏ gọn nhằm điều khiển thiết bị điện thông qua Zigbee, từ đó đánh giá hiệu quả và khả năng ứng dụng trong thực tế.
+
+Tuy nhiên, để đảm bảo phù hợp với điều kiện thực hiện, phạm vi của đề tài được giới hạn ở quy mô mô hình minh họa trong phòng thí nghiệm. Nghiên cứu không đi sâu vào việc phát triển các thuật toán truyền thông nâng cao, không mở rộng sang những chuẩn giao tiếp khác ngoài Zigbee, và cũng chưa triển khai thử nghiệm trên hệ thống nhà thông minh quy mô lớn. Bên cạnh đó, đề tài chỉ tập trung vào module XBee, không nghiên cứu chi tiết các dòng module Zigbee khác.
+Việc thu hẹp phạm vi như trên nhằm đảm bảo tính khả thi, đồng thời tạo điều kiện để làm rõ những đặc điểm cốt lõi và ứng dụng trực quan nhất của Zigbee trong việc điều khiển thiết bị điện gia dụng.
+
+1.5. Nội dung nghiên cứu
+
+Đề tài tập trung trước hết vào việc hệ thống hóa những kiến thức lý thuyết liên quan đến công nghệ Zigbee, bao gồm nguyên lý hoạt động, kiến trúc mạng và vai trò của từng loại thiết bị trong hệ thống. Trên cơ sở đó, nghiên cứu đi sâu vào module XBee – một phần cứng phổ biến hỗ trợ triển khai Zigbee, làm rõ đặc điểm kỹ thuật, khả năng kết nối và ứng dụng thực tế trong việc xây dựng mạng truyền thông không dây.
+
+Tiếp theo, đề tài triển khai phần ứng dụng thông qua việc thiết kế mô hình minh họa trong lĩnh vực nhà thông minh. Mô hình được xây dựng với mục đích điều khiển thiết bị điện từ xa thông qua kết nối Zigbee, qua đó thể hiện rõ cách thức hoạt động, sự ổn định và độ tin cậy của công nghệ này trong điều kiện thực tế.
+
+Cuối cùng, nghiên cứu tiến hành đánh giá hiệu quả mô hình thử nghiệm, phân tích những ưu điểm, hạn chế còn tồn tại, đồng thời đưa ra nhận xét và định hướng phát triển trong tương lai. Nội dung này không chỉ củng cố phần lý thuyết đã trình bày mà còn giúp minh chứng khả năng ứng dụng Zigbee vào các giải pháp tự động hóa gia đình.
+
+
+
+
+1.6. Ý nghĩa nghiên cứu
+
+Đề tài “Tìm hiểu và ứng dụng Zigbee trong hệ thống nhà thông minh” mang lại ý nghĩa cả về lý thuyết lẫn thực tiễn. Về mặt lý thuyết, việc nghiên cứu Zigbee giúp người thực hiện nắm rõ nguyên lý hoạt động, kiến trúc mạng, đặc điểm kỹ thuật cũng như vai trò của module XBee trong việc xây dựng hệ thống truyền thông không dây. Những kiến thức này không chỉ làm phong phú thêm tài liệu tham khảo về IoT mà còn tạo cơ sở để phát triển các nghiên cứu chuyên sâu hơn trong tương lai.
+
+Về mặt thực tiễn, mô hình minh họa điều khiển thiết bị điện trong nhà thông minh thông qua Zigbee cho thấy khả năng ứng dụng trực tiếp của công nghệ này vào đời sống hằng ngày. Hệ thống thử nghiệm không chỉ chứng minh tính ổn định, tiết kiệm năng lượng và khả năng kết nối linh hoạt của Zigbee, mà còn mở ra hướng triển khai những giải pháp tự động hóa gia đình với chi phí hợp lý, thân thiện với người dùng.
+
+Ngoài ra, quá trình thực hiện đề tài còn mang lại ý nghĩa trong đào tạo và rèn luyện kỹ năng. Người nghiên cứu có cơ hội tiếp cận, phân tích công nghệ mới, làm quen với việc thiết kế mô hình thực nghiệm, tích hợp phần cứng và đánh giá kết quả. Đây là những kỹ năng quan trọng, góp phần nâng cao năng lực tự học, nghiên cứu và ứng dụng công nghệ trong thực tế.
+
+
+
+
+
+ 
+
+CHƯƠNG 2: CƠ SỞ LÝ THUYẾT
+Tổng quan công nghệ (BLE, Bluetooth Classic, LoRaWAN, Zigbee, Mesh…).
+Lịch sử hình thành
+Phân loại, đăc điểm ,……
+Kiến trúc hoạt động, mô hình giao thức.
+Các nghiên cứu và ứng dụng liên quan.
+ 
+
+CHƯƠNG 3: GIẢI PHÁP MÔ HÌNH ỨNG DỤNG VÀ KẾT QUẢ
+Thiết kế hệ thống / mô hình.
+
+Mô tả phần cứng và phần mềm sử dụng.
+
+Demo hoặc mô phỏng (gửi/nhận dữ liệu, giám sát, điều khiển).
+
+So sánh, đánh giá (tốc độ, băng thông, QoS, năng lượng, bảo mật).
+
+Kết quả thực hiện
+
+Kết quả cài đặt/triển khai.
+
+Thí nghiệm hoặc demo minh họa.
+
+Bảng so sánh hoặc phân tích kết quả. 
+CHƯƠNG 4: KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN
+4.1 Kết luận
+
+4.2	Hướng phát triển
+ 
+TÀI LIỆU THAM KHẢO
+
+
