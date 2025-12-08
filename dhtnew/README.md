@@ -12,4 +12,4 @@ dht22_simple/
   ui/
     index.html
   schema_mysql_readings.sql
-  
+edit https://h187vdct-80.asse.devtunnels.ms/api to your port  
