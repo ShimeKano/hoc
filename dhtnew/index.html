@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8">
+    <title>Realtime DHT22 (MQTT → Chart.js)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- MQTT.js (WebSocket) -->
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+        
+        #status {
+            font-size: 0.95rem;
+            color: #555;
+        }
+        
+        .error {
+            color: #c00;
+        }
+        
+        canvas {
+            background: #fff;
+        }
+        
+        .small {
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body class="container py-4">
+    <h1 class="mb-2">DHT22 — Biểu đồ thời gian thực (MQTT)</h1>
+    <p class="text-muted mb-3">
+        ESP32 publish dữ liệu DHT22 lên MQTT, trang web subscribe và hiển thị biểu đồ trực tiếp.
+    </p>
+
+    <div class="row g-3 mb-4">
+        <div class="col-lg-6">
+            <label class="form-label">Broker (WebSocket):</label>
+            <input id="broker" class="form-control" value="wss://broker.emqx.io:8084/mqtt">
+            <div class="small text-muted mt-1">Ví dụ: wss://broker.emqx.io:8084/mqtt (EMQX public)</div>
+
+            <label class="form-label mt-3">Topic:</label>
+            <input id="topic" class="form-control" value="sensors/dht/ShimeKano-esp32-01">
+            <div class="small text-muted mt-1">Phải trùng với topic mà ESP32 publish.</div>
+
+            <div class="mt-3 d-flex align-items-center">
+                <button class="btn btn-primary me-2" id="btnConnect">Kết nối</button>
+                <button class="btn btn-outline-secondary me-2" id="btnDisconnect">Ngắt</button>
+                <button class="btn btn-outline-danger" id="btnClear">Xóa dữ liệu</button>
+            </div>
+
+            <div id="status" class="mt-2">Chưa kết nối.</div>
+            <div class="small text-muted">Client ID: <span id="cid">—</span></div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="row g-2">
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="small text-muted">Nhiệt độ hiện tại</div>
+                            <div class="h3" id="currentTemp">— °C</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="small text-muted">Độ ẩm hiện tại</div>
+                            <div class="h3" id="currentHum">— %</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="small text-muted mt-2">Thiết bị: <span id="currentDev">—</span> | Thời điểm: <span id="currentTime">—</span></div>
+        </div>
+    </div>
+
+    <h3>Biểu đồ nhiệt độ</h3>
+    <canvas id="chartTemp" height="120"></canvas>
+
+    <h3 class="mt-4">Biểu đồ độ ẩm</h3>
+    <canvas id="chartHum" height="120" class="mb-4"></canvas>
+
+    <h3>Dữ liệu nhận gần đây</h3>
+    <table class="table table-striped" id="dataTable">
+        <thead>
+            <tr>
+                <th>Thiết bị</th>
+                <th>Nhiệt độ (°C)</th>
+                <th>Độ ẩm (%)</th>
+                <th>ts</th>
+                <th>Thời điểm</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        let client = null;
+        let tempChart, humChart;
+        const maxPoints = 200;
+        const statusEl = document.getElementById('status');
+        const cidEl = document.getElementById('cid');
+        const curTempEl = document.getElementById('currentTemp');
+        const curHumEl = document.getElementById('currentHum');
+        const curDevEl = document.getElementById('currentDev');
+        const curTimeEl = document.getElementById('currentTime');
+
+        function initCharts() {
+            const labels = [];
+            const temps = [];
+            const hums = [];
+            tempChart = new Chart(document.getElementById('chartTemp'), {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: 'Nhiệt độ (°C)',
+                        data: temps,
+                        borderColor: '#ff6384',
+                        tension: 0.2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    animation: false
+                }
+            });
+            humChart = new Chart(document.getElementById('chartHum'), {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: 'Độ ẩm (%)',
+                        data: hums,
+                        borderColor: '#36a2eb',
+                        tension: 0.2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    animation: false
+                }
+            });
+        }
+        initCharts();
+
+        function addRow(r) {
+            const tbody = document.querySelector('#dataTable tbody');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+    <td>${r.device_id ?? ''}</td>
+    <td>${(Number(r.temperature)).toFixed(2)}</td>
+    <td>${(Number(r.humidity)).toFixed(2)}</td>
+    <td>${r.ts ?? ''}</td>
+    <td>${new Date().toLocaleString('vi-VN')}</td>
+  `;
+            tbody.prepend(tr);
+            while (tbody.rows.length > 100) tbody.deleteRow(tbody.rows.length - 1);
+        }
+
+        function addPoint(label, t, h) {
+            const tl = tempChart.data.labels;
+            const td = tempChart.data.datasets[0].data;
+            const hl = humChart.data.labels;
+            const hd = humChart.data.datasets[0].data;
+
+            tl.push(label);
+            td.push(t);
+            hl.push(label);
+            hd.push(h);
+
+            if (tl.length > maxPoints) {
+                tl.shift();
+                td.shift();
+            }
+            if (hl.length > maxPoints) {
+                hl.shift();
+                hd.shift();
+            }
+
+            tempChart.update('none');
+            humChart.update('none');
+        }
+
+        function updateCurrent(r) {
+            curTempEl.textContent = isFinite(Number(r.temperature)) ? `${Number(r.temperature).toFixed(2)} °C` : '— °C';
+            curHumEl.textContent = isFinite(Number(r.humidity)) ? `${Number(r.humidity).toFixed(2)} %` : '— %';
+            curDevEl.textContent = r.device_id ? r.device_id : '—';
+            curTimeEl.textContent = new Date().toLocaleString('vi-VN');
+        }
+
+        function connect() {
+            const brokerInput = document.getElementById('broker').value.trim(); // ví dụ: wss://broker.emqx.io:8084/mqtt
+            const topic = document.getElementById('topic').value.trim();
+
+            if (!brokerInput || !topic) {
+                statusEl.textContent = 'Vui lòng nhập broker và topic.';
+                statusEl.classList.add('error');
+                return;
+            }
+
+            let url;
+            try {
+                url = new URL(brokerInput);
+            } catch (e) {
+                statusEl.textContent = 'URL broker không hợp lệ: ' + e.message;
+                statusEl.classList.add('error');
+                return;
+            }
+
+            // Đảm bảo path là /mqtt nếu để trống (phổ biến với EMQX/HiveMQ)
+            const path = url.pathname && url.pathname !== '/' ? url.pathname : '/mqtt';
+            const fullUrl = `${url.protocol}//${url.host}${path}`;
+
+            const clientId = 'web-' + Math.random().toString(16).slice(2);
+            cidEl.textContent = clientId;
+
+            try {
+                client = mqtt.connect(fullUrl, {
+                    clientId,
+                    keepalive: 30,
+                    reconnectPeriod: 0, // tắt auto-reconnect để dễ kiểm soát
+                    clean: true
+                        // Nếu broker yêu cầu username/password, thêm vào đây:
+                        // username: 'your-user',
+                        // password: 'your-pass',
+                });
+            } catch (e) {
+                statusEl.textContent = 'Không khởi tạo được MQTT client: ' + e.message;
+                statusEl.classList.add('error');
+                return;
+            }
+
+            statusEl.textContent = 'Đang kết nối tới ' + fullUrl + ' ...';
+            statusEl.classList.remove('error');
+
+            client.on('connect', () => {
+                statusEl.textContent = 'Đã kết nối. Subscribing: ' + topic;
+                client.subscribe(topic, {
+                    qos: 0
+                }, (err) => {
+                    if (err) {
+                        statusEl.textContent = 'Subscribe lỗi: ' + err.message;
+                        statusEl.classList.add('error');
+                    }
+                });
+            });
+
+            client.on('message', (tp, payload) => {
+                try {
+                    const data = JSON.parse(payload.toString());
+                    const label = new Date().toLocaleTimeString('vi-VN');
+                    const t = Number(data.temperature);
+                    const h = Number(data.humidity);
+                    if (isFinite(t) && isFinite(h)) {
+                        addPoint(label, t, h);
+                        addRow(data);
+                        updateCurrent(data);
+                    }
+                } catch (e) {
+                    console.warn('Payload không phải JSON hợp lệ:', payload.toString());
+                }
+            });
+
+            client.on('error', (err) => {
+                statusEl.textContent = 'Lỗi kết nối: ' + (err.message || JSON.stringify(err));
+                statusEl.classList.add('error');
+            });
+
+            client.on('close', () => {
+                statusEl.textContent = 'Đã đóng kết nối.';
+            });
+        }
+
+        function disconnect() {
+            if (client) {
+                try {
+                    client.end(true);
+                } catch {}
+                client = null;
+                statusEl.textContent = 'Đã ngắt kết nối.';
+                statusEl.classList.remove('error');
+            }
+        }
+
+        function clearData() {
+            // Xóa bảng
+            const tbody = document.querySelector('#dataTable tbody');
+            tbody.innerHTML = '';
+            // Xóa biểu đồ
+            tempChart.data.labels.length = 0;
+            tempChart.data.datasets[0].data.length = 0;
+            humChart.data.labels.length = 0;
+            humChart.data.datasets[0].data.length = 0;
+            tempChart.update();
+            humChart.update();
+            // Reset hiển thị hiện tại
+            curTempEl.textContent = '— °C';
+            curHumEl.textContent = '— %';
+            curDevEl.textContent = '—';
+            curTimeEl.textContent = '—';
+        }
+
+        document.getElementById('btnConnect').addEventListener('click', connect);
+        document.getElementById('btnDisconnect').addEventListener('click', disconnect);
+        document.getElementById('btnClear').addEventListener('click', clearData);
+
+        // Tự động kết nối khi tải trang
+        connect();
+    </script>
+</body>
+
+</html>
