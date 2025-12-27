@@ -1,0 +1,1 @@
+# Mark ai as a package (safer across environments)
