@@ -1,0 +1,11 @@
+facenet-pytorch
+torch
+torchvision
+numpy
+pandas
+opencv-python
+pillow
+paho-mqtt>=2.0.0
+gradio>=6.0.0
+huggingface_hub
+scikit-learn
