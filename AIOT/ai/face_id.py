@@ -9,9 +9,15 @@ from config import HF_REPO_ID, HF_REPO_TYPE, HF_FILENAME
 
 class FaceID:
     def __init__(self):
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.mtcnn = MTCNN(image_size=160, margin=20, post_process=True, device=self.device)
-        self.embedder = InceptionResnetV1(pretrained="vggface2").eval().to(self.device)
+        # Guarded init to avoid exceptions bubbling to UI
+        try:
+            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+            self.mtcnn = MTCNN(image_size=160, margin=20, post_process=True, device=self.device)
+            self.embedder = InceptionResnetV1(pretrained="vggface2").eval().to(self.device)
+        except Exception:
+            self.device = torch.device("cpu")
+            self.mtcnn = None
+            self.embedder = None
         self.template = None
         self.threshold = 0.85
         self._load_face_template()
@@ -24,11 +30,7 @@ class FaceID:
         return tpl, thr
 
     def _try_load_local(self):
-        candidates = [
-            HF_FILENAME,
-            os.path.join(os.getcwd(), HF_FILENAME),
-            os.path.abspath(HF_FILENAME),
-        ]
+        candidates = [HF_FILENAME, os.path.join(os.getcwd(), HF_FILENAME), os.path.abspath(HF_FILENAME)]
         for p in candidates:
             if os.path.exists(p):
                 try:
@@ -38,22 +40,18 @@ class FaceID:
         return None
 
     def _load_face_template(self):
-        # 1) Local
         res = self._try_load_local()
         if res:
             self.template, self.threshold = res
             return
-        # 2) Fallback: download from Space
         try:
             path = hf_hub_download(repo_id=HF_REPO_ID, filename=HF_FILENAME, repo_type=HF_REPO_TYPE)
             self.template, self.threshold = self._load_npz(path)
         except Exception:
-            # Keep template=None; UI sẽ báo thiếu template
             self.template = None
             self.threshold = 0.85
 
     def set_template_file(self, file_path):
-        """Load template từ file .npz người dùng upload."""
         try:
             tpl, thr = self._load_npz(file_path)
             self.template, self.threshold = tpl, thr
@@ -62,26 +60,28 @@ class FaceID:
             return f"❌ Không đọc được .npz: {e}"
 
     def recognize(self, frame_np):
-        """
-        frame_np: numpy RGB image từ gr.Image (type="numpy")
-        Returns: (label_text, info_text, cmd or None)
-        """
-        if self.template is None:
-            return "❌ Thiếu template", "Tải quoc_tuan_template.npz", None
-        if frame_np is None:
-            return "🖼️ Chưa có ảnh webcam", "Bấm Snapshot rồi nhấn NHẬN DIỆN", None
+        # Always return strings; never raise
+        try:
+            if self.template is None:
+                return "❌ Thiếu template", "Tải quoc_tuan_template.npz", None
+            if frame_np is None:
+                return "🖼️ Chưa có ảnh webcam", "Bấm Snapshot rồi nhấn NHẬN DIỆN", None
+            if self.mtcnn is None or self.embedder is None:
+                return "❌ Thiếu mô-đun AI", "Kiểm tra facenet_pytorch/torch", None
 
-        img = Image.fromarray(frame_np.astype("uint8"), "RGB")
-        face = self.mtcnn(img)
-        if face is None:
-            return "🔍 Không thấy mặt", "Thử lại", None
+            img = Image.fromarray(frame_np.astype("uint8"), "RGB")
+            face = self.mtcnn(img)
+            if face is None:
+                return "🔍 Không thấy mặt", "Thử lại", None
 
-        with torch.no_grad():
-            emb = self.embedder(face.unsqueeze(0).to(self.device))[0].cpu().numpy().astype(np.float32)
+            with torch.no_grad():
+                emb = self.embedder(face.unsqueeze(0).to(self.device))[0].cpu().numpy().astype(np.float32)
 
-        emb = emb / (np.linalg.norm(emb) + 1e-12)
-        sim = float(np.dot(emb, self.template))
-        is_owner = sim >= self.threshold
-        label = "✅ CHỦ NHÀ" if is_owner else "🛑 NGƯỜI LẠ"
-        cmd = "OPEN" if is_owner else "LOCK"
-        return label, f"📡 {cmd} ({round(sim, 2)})", cmd
+            emb = emb / (np.linalg.norm(emb) + 1e-12)
+            sim = float(np.dot(emb, self.template))
+            is_owner = sim >= self.threshold
+            label = "✅ CHỦ NHÀ" if is_owner else "🛑 NGƯỜI LẠ"
+            cmd = "OPEN" if is_owner else "LOCK"
+            return label, f"📡 {cmd} ({round(sim, 2)})", cmd
+        except Exception as e:
+            return "❌ Lỗi nhận diện", f"Lỗi nội bộ: {e}", None
