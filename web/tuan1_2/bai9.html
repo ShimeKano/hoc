@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bài 9</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            font-family:Arial, Helvetica, sans-serif;
+            padding:30px;
+            background:white;
+        }
+
+        .gallery{
+
+            display:grid;
+
+            grid-template-columns:repeat(3,250px);
+
+            gap:10px;
+
+            justify-content:center;
+
+        }
+
+        .gallery img{
+
+            width:250px;
+
+            height:160px;
+
+            object-fit:cover;
+
+            border-radius:10px;
+
+            transition:0.5s;
+
+            cursor:pointer;
+
+        }
+
+        .gallery img:hover{
+
+            transform:scale(1.1);
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="gallery">
+
+    <img src="Images/Sach1.jpg" alt="Sách 1">
+
+    <img src="Images/Sach2.jpg" alt="Sách 2">
+
+    <img src="Images/Sach3.jpg" alt="Sách 3">
+
+    <img src="Images/Sach4.jpg" alt="Sách 4">
+
+    <img src="Images/Sach5.jpg" alt="Sách 5">
+
+</div>
+
+</body>
+
+</html>
