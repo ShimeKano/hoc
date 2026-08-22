@@ -55,8 +55,51 @@ async function openRouterChat(model, messages, extra = {}) {
   return data;
 }
 
+async function openRouterImages(model, prompt, inputReference) {
+  const response = await fetch('https://openrouter.ai/api/v1/images', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+      'HTTP-Referer': process.env.SITE_URL || 'http://localhost:3000',
+      'X-Title': process.env.SITE_NAME || 'HOC AI Image Chat',
+    },
+    body: JSON.stringify({
+      model,
+      prompt,
+      ...(inputReference
+        ? {
+            input_references: [
+              {
+                type: 'image_url',
+                image_url: { url: inputReference },
+              },
+            ],
+          }
+        : {}),
+    }),
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    const message = data?.error?.message || `OpenRouter image request failed (${response.status})`;
+    const error = new Error(message);
+    error.status = response.status;
+    error.details = data;
+    throw error;
+  }
+  return data;
+}
+
 function getText(data) {
   return data?.choices?.[0]?.message?.content || '';
+}
+
+function getGeneratedImage(data) {
+  const first = data?.data?.[0];
+  if (!first?.b64_json) return null;
+  const mediaType = first.media_type || 'image/png';
+  return `data:${mediaType};base64,${first.b64_json}`;
 }
 
 app.get('/api/health', (_req, res) => {
@@ -67,6 +110,33 @@ app.get('/api/health', (_req, res) => {
     visionModel,
     imageModel: imageModel || null,
   });
+});
+
+app.get('/api/image-models', async (_req, res) => {
+  if (!requireKey(res)) return;
+
+  try {
+    const response = await fetch('https://openrouter.ai/api/v1/images/models', {
+      headers: { Authorization: `Bearer ${apiKey}` },
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      return res.status(response.status).json(data);
+    }
+
+    res.json({
+      models: (data.data || []).map((model) => ({
+        id: model.id,
+        name: model.name,
+        description: model.description,
+        inputModalities: model.architecture?.input_modalities || [],
+        outputModalities: model.architecture?.output_modalities || [],
+        supportedParameters: model.supported_parameters || {},
+      })),
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 app.post('/api/chat', upload.single('image'), async (req, res) => {
@@ -111,7 +181,7 @@ app.post('/api/edit-image', upload.single('image'), async (req, res) => {
   if (!imageModel) {
     return res.status(501).json({
       error: 'No image generation/editing model is configured.',
-      hint: 'Set OPENROUTER_IMAGE_MODEL to an OpenRouter image-capable model available to your account.',
+      hint: 'Set OPENROUTER_IMAGE_MODEL to a model returned by GET /api/image-models that accepts image input and outputs images.',
     });
   }
 
@@ -119,31 +189,17 @@ app.post('/api/edit-image', upload.single('image'), async (req, res) => {
   if (!instruction) return res.status(400).json({ error: 'Edit instruction is required.' });
 
   try {
-    const image = imageDataUrl(req.file);
-    const data = await openRouterChat(imageModel, [
-      {
-        role: 'user',
-        content: [
-          { type: 'text', text: instruction },
-          { type: 'image_url', image_url: { url: image } },
-        ],
-      },
-    ]);
+    const data = await openRouterImages(imageModel, instruction, imageDataUrl(req.file));
+    const image = getGeneratedImage(data);
 
-    const message = data?.choices?.[0]?.message;
-    const images = message?.images || data?.images || [];
-    const first = images[0];
-    const imageUrl = first?.image_url?.url || first?.url || null;
-
-    if (!imageUrl) {
+    if (!image) {
       return res.status(502).json({
-        error: 'The selected model did not return an edited image.',
-        answer: getText(data),
+        error: 'The selected image model did not return an image.',
         raw: data,
       });
     }
 
-    res.json({ type: 'image', model: imageModel, image: imageUrl, answer: getText(data) });
+    res.json({ type: 'image', model: imageModel, image });
   } catch (error) {
     res.status(error.status || 500).json({ error: error.message, details: error.details || null });
   }
