@@ -1,0 +1,18 @@
+{
+  "apis": [
+    {
+      "id": "openai-1",
+      "name": "OpenAI key 1",
+      "provider": "openai",
+      "key": "sk-...",
+      "enabled": true
+    },
+    {
+      "id": "openrouter-1",
+      "name": "OpenRouter key 1",
+      "provider": "openrouter",
+      "key": "sk-or-...",
+      "enabled": true
+    }
+  ]
+}
