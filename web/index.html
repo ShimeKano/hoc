@@ -38,7 +38,7 @@
     </header>
 
     <section id="messages" aria-live="polite">
-      <div class="msg assistant">Xin chào! Gửi câu hỏi hoặc upload ảnh để tôi phân tích.</div>
+      <div class="msg assistant">Xin chào! Gửi câu hỏi hoặc upload ảnh để tôi phân tích. Muốn chỉnh ảnh, hãy nói rõ thao tác như “xóa cái mũ”, “đổi nền”, “thêm...”.</div>
     </section>
 
     <form id="chatForm">
@@ -103,22 +103,21 @@
       addMessage('user', text, file ? URL.createObjectURL(file) : null);
       input.value = '';
       send.disabled = true;
-      status.textContent = file ? 'Đang đọc ảnh...' : 'Đang suy nghĩ...';
+      status.textContent = file ? 'Đang xử lý ảnh...' : 'Đang suy nghĩ...';
 
       try {
         const body = new FormData();
         body.append('message', text);
         if (file) body.append('image', file);
 
-        const endpoint = file && /\b(sửa|chỉnh|xóa|xoá|thêm|đổi|thay|remove|edit|change|add|delete)\b/i.test(text)
-          ? '/api/edit-image'
-          : '/api/chat';
+        const editWords = /\b(sửa|chỉnh|xóa|xoá|thêm|đổi|thay|remove|edit|change|add|delete|erase|background|nền)\b/i;
+        const endpoint = file && editWords.test(text) ? '/api/edit-image' : '/api/chat';
 
         const response = await fetch(endpoint, { method: 'POST', body });
         const data = await response.json();
         if (!response.ok) throw new Error(data.error || 'Request failed');
 
-        if (data.type === 'image') addMessage('assistant', data.answer || 'Đã chỉnh ảnh:', data.image);
+        if (data.type === 'image') addMessage('assistant', '🖼️ Đã tạo ảnh chỉnh sửa:', data.image);
         else addMessage('assistant', data.answer || 'Không có phản hồi.');
       } catch (error) {
         addMessage('assistant', `❌ ${error.message}`);
