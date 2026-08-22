@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HOC AI</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, system-ui, sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: #0b1020; color: #edf2ff; }
+    .app { width: min(1000px, 100%); margin: auto; min-height: 100vh; display: flex; flex-direction: column; padding: 18px; }
+    header { padding: 10px 4px 18px; }
+    h1 { margin: 0; font-size: 25px; }
+    header p { margin: 6px 0 0; color: #8e9bb8; }
+    #messages { flex: 1; display: flex; flex-direction: column; gap: 12px; padding: 12px 0 18px; overflow-y: auto; }
+    .msg { max-width: 85%; padding: 13px 15px; border-radius: 16px; white-space: pre-wrap; line-height: 1.5; }
+    .user { align-self: flex-end; background: #334b9b; }
+    .assistant { align-self: flex-start; background: #171e31; border: 1px solid #26314c; }
+    .attachment { display: block; max-width: 330px; max-height: 330px; margin-top: 9px; border-radius: 12px; object-fit: contain; }
+    form { position: sticky; bottom: 0; background: #0b1020; padding-top: 10px; }
+    .composer { display: flex; gap: 9px; align-items: flex-end; padding: 10px; border: 1px solid #293551; background: #11182a; border-radius: 18px; }
+    textarea { flex: 1; resize: vertical; min-height: 46px; max-height: 180px; border: 0; outline: 0; background: transparent; color: inherit; font: inherit; padding: 9px; }
+    button, label { border: 0; border-radius: 12px; padding: 11px 14px; background: #2b3970; color: white; cursor: pointer; font-weight: 650; }
+    button:hover, label:hover { filter: brightness(1.12); }
+    button:disabled { opacity: .5; cursor: wait; }
+    input[type=file] { display: none; }
+    #preview { display: none; align-items: center; gap: 10px; padding: 0 10px 10px; color: #aeb9d2; }
+    #preview img { width: 58px; height: 58px; object-fit: cover; border-radius: 10px; }
+    .remove { padding: 7px 10px; background: #512b3a; }
+    .status { min-height: 20px; padding: 7px 5px 0; color: #8e9bb8; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>🤖 HOC AI</h1>
+      <p>Chat • đọc ảnh • chỉnh ảnh</p>
+    </header>
+
+    <section id="messages" aria-live="polite">
+      <div class="msg assistant">Xin chào! Gửi câu hỏi hoặc upload ảnh để tôi phân tích.</div>
+    </section>
+
+    <form id="chatForm">
+      <div id="preview"><img id="previewImage" alt="Ảnh đã chọn"><span id="previewName"></span><button type="button" class="remove" id="removeImage">Xóa</button></div>
+      <div class="composer">
+        <label for="imageInput">📎 Ảnh</label>
+        <input id="imageInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+        <textarea id="message" placeholder="Nhập tin nhắn..." required></textarea>
+        <button id="send" type="submit">Gửi</button>
+      </div>
+      <div class="status" id="status"></div>
+    </form>
+  </main>
+
+  <script>
+    const form = document.querySelector('#chatForm');
+    const input = document.querySelector('#message');
+    const fileInput = document.querySelector('#imageInput');
+    const preview = document.querySelector('#preview');
+    const previewImage = document.querySelector('#previewImage');
+    const previewName = document.querySelector('#previewName');
+    const removeImage = document.querySelector('#removeImage');
+    const messages = document.querySelector('#messages');
+    const status = document.querySelector('#status');
+    const send = document.querySelector('#send');
+
+    function addMessage(role, text, image = null) {
+      const el = document.createElement('div');
+      el.className = `msg ${role}`;
+      if (text) el.textContent = text;
+      if (image) {
+        const img = document.createElement('img');
+        img.className = 'attachment';
+        img.src = image;
+        img.alt = 'AI output';
+        el.appendChild(img);
+      }
+      messages.appendChild(el);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      if (!file) return;
+      previewImage.src = URL.createObjectURL(file);
+      previewName.textContent = file.name;
+      preview.style.display = 'flex';
+    });
+
+    removeImage.addEventListener('click', () => {
+      fileInput.value = '';
+      preview.style.display = 'none';
+      previewImage.removeAttribute('src');
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const text = input.value.trim();
+      const file = fileInput.files[0];
+      if (!text || send.disabled) return;
+
+      addMessage('user', text, file ? URL.createObjectURL(file) : null);
+      input.value = '';
+      send.disabled = true;
+      status.textContent = file ? 'Đang đọc ảnh...' : 'Đang suy nghĩ...';
+
+      try {
+        const body = new FormData();
+        body.append('message', text);
+        if (file) body.append('image', file);
+
+        const endpoint = file && /\b(sửa|chỉnh|xóa|xoá|thêm|đổi|thay|remove|edit|change|add|delete)\b/i.test(text)
+          ? '/api/edit-image'
+          : '/api/chat';
+
+        const response = await fetch(endpoint, { method: 'POST', body });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Request failed');
+
+        if (data.type === 'image') addMessage('assistant', data.answer || 'Đã chỉnh ảnh:', data.image);
+        else addMessage('assistant', data.answer || 'Không có phản hồi.');
+      } catch (error) {
+        addMessage('assistant', `❌ ${error.message}`);
+      } finally {
+        send.disabled = false;
+        status.textContent = '';
+        removeImage.click();
+        input.focus();
+      }
+    });
+  </script>
+</body>
+</html>
