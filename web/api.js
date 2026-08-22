@@ -1,213 +1,23 @@
 import 'dotenv/config';
 import express from 'express';
 import multer from 'multer';
+import { readConfig, writeConfig, publicConfig } from './ai/config.js';
+import { discoverApis, chat, generateImage } from './ai/router.js';
 
 const app = express();
 const port = Number(process.env.PORT || 3000);
-const apiKey = process.env.OPENROUTER_API_KEY;
-const textModel = process.env.OPENROUTER_TEXT_MODEL || 'openrouter/free';
-const visionModel = process.env.OPENROUTER_VISION_MODEL || 'nvidia/nemotron-nano-12b-v2-vl:free';
-const imageModel = process.env.OPENROUTER_IMAGE_MODEL || '';
-
-const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: { fileSize: 10 * 1024 * 1024 },
-  fileFilter: (_req, file, cb) => {
-    cb(null, /^image\/(png|jpe?g|webp|gif)$/i.test(file.mimetype));
-  },
-});
-
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 12 * 1024 * 1024 }, fileFilter: (_r, f, cb) => cb(null, /^image\/(png|jpe?g|webp|gif)$/i.test(f.mimetype)) });
 app.use(express.json({ limit: '1mb' }));
 app.use(express.static('.'));
 
-function requireKey(res) {
-  if (!apiKey) {
-    res.status(500).json({ error: 'OPENROUTER_API_KEY is not configured.' });
-    return false;
-  }
-  return true;
-}
+function dataUrl(file) { return `data:${file.mimetype};base64,${file.buffer.toString('base64')}`; }
+async function current() { const config = await readConfig(); const { results, catalog } = await discoverApis(config.apis); return { config, results, catalog }; }
+function publicResults(results) { return results.map(r => ({ id:r.id,name:r.name,provider:r.provider,alive:r.alive,status:r.status||null,error:r.error||null,modelCount:r.models?.length||0,models:(r.models||[]).map(m=>({id:m.id,name:m.name,capabilities:m.capabilities})) })); }
 
-function imageDataUrl(file) {
-  return `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
-}
-
-async function openRouterChat(model, messages, extra = {}) {
-  const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-      'HTTP-Referer': process.env.SITE_URL || 'http://localhost:3000',
-      'X-Title': process.env.SITE_NAME || 'HOC AI Image Chat',
-    },
-    body: JSON.stringify({ model, messages, ...extra }),
-  });
-
-  const data = await response.json();
-  if (!response.ok) {
-    const message = data?.error?.message || `OpenRouter request failed (${response.status})`;
-    const error = new Error(message);
-    error.status = response.status;
-    error.details = data;
-    throw error;
-  }
-  return data;
-}
-
-async function openRouterImages(model, prompt, inputReference) {
-  const response = await fetch('https://openrouter.ai/api/v1/images', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-      'HTTP-Referer': process.env.SITE_URL || 'http://localhost:3000',
-      'X-Title': process.env.SITE_NAME || 'HOC AI Image Chat',
-    },
-    body: JSON.stringify({
-      model,
-      prompt,
-      ...(inputReference
-        ? {
-            input_references: [
-              {
-                type: 'image_url',
-                image_url: { url: inputReference },
-              },
-            ],
-          }
-        : {}),
-    }),
-  });
-
-  const data = await response.json();
-  if (!response.ok) {
-    const message = data?.error?.message || `OpenRouter image request failed (${response.status})`;
-    const error = new Error(message);
-    error.status = response.status;
-    error.details = data;
-    throw error;
-  }
-  return data;
-}
-
-function getText(data) {
-  return data?.choices?.[0]?.message?.content || '';
-}
-
-function getGeneratedImage(data) {
-  const first = data?.data?.[0];
-  if (!first?.b64_json) return null;
-  const mediaType = first.media_type || 'image/png';
-  return `data:${mediaType};base64,${first.b64_json}`;
-}
-
-app.get('/api/health', (_req, res) => {
-  res.json({
-    ok: true,
-    configured: Boolean(apiKey),
-    textModel,
-    visionModel,
-    imageModel: imageModel || null,
-  });
-});
-
-app.get('/api/image-models', async (_req, res) => {
-  if (!requireKey(res)) return;
-
-  try {
-    const response = await fetch('https://openrouter.ai/api/v1/images/models', {
-      headers: { Authorization: `Bearer ${apiKey}` },
-    });
-    const data = await response.json();
-    if (!response.ok) {
-      return res.status(response.status).json(data);
-    }
-
-    res.json({
-      models: (data.data || []).map((model) => ({
-        id: model.id,
-        name: model.name,
-        description: model.description,
-        inputModalities: model.architecture?.input_modalities || [],
-        outputModalities: model.architecture?.output_modalities || [],
-        supportedParameters: model.supported_parameters || {},
-      })),
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-app.post('/api/chat', upload.single('image'), async (req, res) => {
-  if (!requireKey(res)) return;
-
-  const message = String(req.body?.message || '').trim();
-  if (!message) return res.status(400).json({ error: 'Message is required.' });
-
-  try {
-    const content = [{ type: 'text', text: message }];
-    let model = textModel;
-
-    if (req.file) {
-      model = visionModel;
-      content.push({
-        type: 'image_url',
-        image_url: { url: imageDataUrl(req.file) },
-      });
-    }
-
-    const data = await openRouterChat(model, [
-      {
-        role: 'system',
-        content: 'You are a helpful multimodal assistant. If an image is provided, inspect it carefully and answer the user in the same language they use.',
-      },
-      { role: 'user', content },
-    ]);
-
-    res.json({
-      type: 'text',
-      model,
-      answer: getText(data),
-    });
-  } catch (error) {
-    res.status(error.status || 500).json({ error: error.message, details: error.details || null });
-  }
-});
-
-app.post('/api/edit-image', upload.single('image'), async (req, res) => {
-  if (!requireKey(res)) return;
-  if (!req.file) return res.status(400).json({ error: 'An image is required.' });
-  if (!imageModel) {
-    return res.status(501).json({
-      error: 'No image generation/editing model is configured.',
-      hint: 'Set OPENROUTER_IMAGE_MODEL to a model returned by GET /api/image-models that accepts image input and outputs images.',
-    });
-  }
-
-  const instruction = String(req.body?.message || '').trim();
-  if (!instruction) return res.status(400).json({ error: 'Edit instruction is required.' });
-
-  try {
-    const data = await openRouterImages(imageModel, instruction, imageDataUrl(req.file));
-    const image = getGeneratedImage(data);
-
-    if (!image) {
-      return res.status(502).json({
-        error: 'The selected image model did not return an image.',
-        raw: data,
-      });
-    }
-
-    res.json({ type: 'image', model: imageModel, image });
-  } catch (error) {
-    res.status(error.status || 500).json({ error: error.message, details: error.details || null });
-  }
-});
-
-app.listen(port, () => {
-  console.log(`HOC AI Image Chat running at http://localhost:${port}`);
-  console.log(`Text model: ${textModel}`);
-  console.log(`Vision model: ${visionModel}`);
-  console.log(`Image model: ${imageModel || '(not configured)'}`);
-});
+app.get('/api/status', async (_req,res)=>{try{const x=await current();res.json({apis:publicConfig(x.config).apis,results:publicResults(x.results),selected:x.catalog.selected});}catch(e){res.status(500).json({error:e.message});}});
+app.post('/api/apis', async (req,res)=>{try{const config=await writeConfig(req.body);const x=await current();res.json({apis:publicConfig(config).apis,results:publicResults(x.results),selected:x.catalog.selected});}catch(e){res.status(400).json({error:e.message});}});
+app.post('/api/refresh', async (_req,res)=>{try{const x=await current();res.json({results:publicResults(x.results),selected:x.catalog.selected});}catch(e){res.status(500).json({error:e.message});}});
+app.post('/api/chat', upload.single('image'), async (req,res)=>{try{const message=String(req.body?.message||'').trim();if(!message)return res.status(400).json({error:'Message is required.'});const x=await current();const out=await chat(x.catalog,message,req.file?dataUrl(req.file):null);res.json({type:'text',...out});}catch(e){res.status(e.status||500).json({error:e.message,details:e.details||null});}});
+app.post('/api/generate-image', upload.single('image'), async (req,res)=>{try{const prompt=String(req.body?.message||'').trim();if(!prompt)return res.status(400).json({error:'Prompt is required.'});const x=await current();const out=await generateImage(x.catalog,prompt,req.file?dataUrl(req.file):null);res.json({type:'image',...out});}catch(e){res.status(e.status||500).json({error:e.message,details:e.details||null});}});
+app.get('/api/health', async (_req,res)=>{try{const x=await current();res.json({ok:true,apis:x.results.length,alive:x.results.filter(r=>r.alive).length,selected:x.catalog.selected});}catch(e){res.status(500).json({ok:false,error:e.message});}});
+app.listen(port,()=>console.log(`HOC AI running at http://localhost:${port}`));
